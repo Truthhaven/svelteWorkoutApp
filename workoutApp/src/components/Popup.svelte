@@ -1,7 +1,7 @@
 <script>
-    export let visible = false;
-    export let onClose = () => {};
-  </script>
+  export let visible = false;
+  export let onClose = () => {};
+</script>
   
   {#if visible}
     <div class="pop-up-message">
