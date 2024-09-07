@@ -1,8 +1,8 @@
 <script>
   import Popup from '../components/Popup.svelte';
   import { onMount } from 'svelte';
-  import workoutCard from '../components/workoutCard.svelte';
   import workoutInfo from '../englishWorkouts.json';
+  import WorkoutCard from '../components/workoutCard.svelte';
 
 
   let showPopup = false;
@@ -213,52 +213,62 @@
                 ? { ...muscle, isSelected: !muscle.isSelected }
                 : muscle
         );
+        getSelectedBodyParts();
     }
   
+    /**
+   * @type {any[]}
+   */
+    let filteredWorkouts = [];
+// Function to get an array of selected body parts.
+function getSelectedBodyParts() {
 
-  /**
-   * @param {string} muscleId
-   * @param {(MouseEvent & { currentTarget: EventTarget & SVGPathElement; }) | undefined} [ev]
-   */
-  /**
-   * @type { string[]}
-   */
-  /*
-  
-  let selectedMuscles = [];
-function toggleMuscleSelection(muscleId, ev) {
-    const index = selectedMuscles.indexOf(muscleId);
-    if (index > -1) {
-      selectedMuscles.splice(index, 1);
-      if(ev)
-      ev.currentTarget.setAttribute("style", "fill:none");
-    } else {
-      if(ev)
-      ev.currentTarget.setAttribute("style", "fill:red");
-      selectedMuscles.push(muscleId);
-    }
-    console.log("selectedMuscles: " + selectedMuscles)
+let arr = [];
+
+// Loop through each muscle and add selected ones to the array.
+for( let muscle of muscles){
+  if(muscle.isSelected){
+    arr.push(muscle.id)
   }
-  */
-
-
-
-  /**
-   * @param {string} muscleId
-   */
-    /*
-  function isMuscleSelected(muscleId) {
-    const isSelected = selectedMuscles.includes(muscleId);
-    return isSelected;
 }
-*/
 
+// Filter the workouts based on the selected body parts.
+filteredWorkouts = workoutInfo.filter((workout) => {
+for (let bp of arr) {
+  if (
+    workout.category.name.trim().toLowerCase() ===
+      bp.trim().toLowerCase() ||
+    workout.muscles.some(
+      (muscle) =>
+        muscle.name_en.trim().toLowerCase() === bp.trim().toLowerCase()
+    ) ||
+    workout.muscles.some(
+      (muscle) =>
+        muscle.name.trim().toLowerCase() === bp.trim().toLowerCase()
+    )
+  ) {
+    return true;
+  }
+}
+return false;
+});
+filteredWorkouts = filteredWorkouts.sort((a, b) => {
+    const hasImageA = a.images && a.images.length > 0;
+    const hasImageB = b.images && b.images.length > 0;
+    return hasImageB - hasImageA;
+  });
+console.log(filteredWorkouts);
+return filteredWorkouts;
+}
+
+  
 </script>
 
 
 {#if showPopup}
   <Popup visible={showPopup} onClose={closePopup} />
 {/if}
+
 
 
 
@@ -334,10 +344,28 @@ function toggleMuscleSelection(muscleId, ev) {
     {/if}
     {/each}
   </svg>
+
+  <div class = "workout-container">
+    {#each filteredWorkouts as workout}
+    <WorkoutCard
+    workoutName={workout.name}
+    imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}> 
+  </WorkoutCard>
+    {/each}
   </div>
+    
+</div>
+
+
   
 <style>
-
+.workout-container {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 10px;
+  padding: 20px;
+  width: 50%; 
+}
 .selection-container {
   display: flex;
   flex-direction: row;    
