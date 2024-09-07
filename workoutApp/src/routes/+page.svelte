@@ -215,7 +215,7 @@
         );
         getSelectedBodyParts();
     }
-  
+    
     /**
    * @type {any[]}
    */
@@ -261,7 +261,41 @@ console.log(filteredWorkouts);
 return filteredWorkouts;
 }
 
-  
+let toggleGroups = [
+    {
+      title: 'Visuals',
+      items: [
+        { id: 'images', label: 'Must Include Images', isSelected: false }
+      ]
+    },
+    {
+      title: 'Description',
+      items: [
+        { id: 'description', label: 'Must Include Description', isSelected: false }
+      ]
+    },
+    {
+      title: 'Equipment',
+      items: [
+        { id: 'withEquipment', label: 'Uses Equipment', isSelected: false },
+        { id: 'noEquipment', label: 'No Equipment Required', isSelected: false }
+      ]
+    }
+  ];
+
+  /**
+   * @param {string} id
+   */
+  function handleChange(id) {
+  //console.log(`Toggle with id ${id} changed`);
+  toggleGroups = toggleGroups.map(group => ({
+    ...group,
+    items: group.items.map(toggle => 
+      toggle.id === id ? { ...toggle, isSelected: !toggle.isSelected } : toggle
+    )
+  }));
+}
+
 </script>
 
 
@@ -277,53 +311,51 @@ return filteredWorkouts;
 </header>
 
 <div class = "selection-container"> 
-<div class="toggle-container">
-  <h2 class="toggle-title" >Muscles
-  <span class="info-button" on:mouseenter={() => showTooltip = true} on:mouseleave={() => showTooltip = false}>
-    i
-    {#if showTooltip}
-      <span class="tooltip-text">Select a muscle from the menu below or select on the body outline</span>
-    {/if}
-  </span>
-</h2>
-{#each muscles as muscle (muscle.id)}
-<div class="toggle-item">
-    <label for={muscle.id} class="muscle-label">{muscle.id}</label>
-    <input
-        type="checkbox"
-        id={muscle.id}
-        class="toggle-switch"
-        checked={isMuscleSelected(muscle.id)}
-        on:change={() => toggleMuscleSelection(muscle.id)}
-    />
-    <label for={muscle.id} class="toggle-label"></label>
-</div>
-{/each}
+  <div class = "toggleOptions">
+    <h2 class="toggle-title" >Muscles
+      <span class="info-button" on:mouseenter={() => showTooltip = true} on:mouseleave={() => showTooltip = false}>
+        i
+        {#if showTooltip}
+          <span class="tooltip-text">Select a muscle from the menu below or select on the body outline</span>
+        {/if}
+      </span>
+    </h2>
+    {#each muscles as muscle (muscle.id)}
+    <div class="toggle-item">
+        <label for={muscle.id} class="muscle-label">{muscle.id}</label>
+        <input
+            type="checkbox"
+            id={muscle.id}
+            class="toggle-switch"
+            checked={isMuscleSelected(muscle.id)}
+            on:change={() => toggleMuscleSelection(muscle.id)}
+        />
+        <label for={muscle.id} class="toggle-label"></label>
+    </div>
+    {/each}
+        
+    <div>
+      {#each toggleGroups as group}
+        <h2 class="toggle-title">{group.title}</h2>
+        {#each group.items as toggle}
+          <div class="toggle-item">
+            <input
+              type="checkbox"
+              id={toggle.id}
+              class="toggle-switch"
+              checked={toggle.isSelected}
+              on:change={() => handleChange(toggle.id)}
+            />
+            <label for={toggle.id} class="toggle-label">
+            </label>
+            {toggle.label}
+          </div>
+        {/each}
+      {/each}
+    </div>
     
-  <h2 class="toggle-title" >Visuals</h2>
-  <div class="toggle-item">
-      <label for="withImages" >Must Include Images</label>
-      <input type="checkbox" id="withImages" class="toggle-switch">
-      <label for="withImages" class="toggle-label"></label><br>
-  </div>
-  <h2 class="toggle-title" >Description</h2>
-  <div class="toggle-item">
-      <label for="withDescription" >Must Include Description</label>
-      <input type="checkbox" id="withDescription" class="toggle-switch" >
-      <label for="withDescription" class="toggle-label"></label><br>
-  </div>
-  <h2 class="toggle-title" >Equipment</h2>
-  <div class="toggle-item">
-      <label for="withEquipment">Uses Equipment</label>
-      <input type="checkbox" id="withEquipment" class="toggle-switch" >
-      <label for="withEquipment" class="toggle-label"></label><br>
-  </div>
-  <div class="toggle-item">
-      <label for="noEquipment">No Equipment Required</label>
-      <input type="checkbox" id="noEquipment" class="toggle-switch" >
-      <label for="noEquipment" class="toggle-label"></label><br>
-  </div>
-</div>
+    
+     </div>
 
 <svg id = "frontView" width="330" height="499" viewBox="0 0 330 499" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="330" height="499" fill="white"/>
@@ -344,7 +376,6 @@ return filteredWorkouts;
     {/if}
     {/each}
   </svg>
-
   <div class = "workout-container">
     {#each filteredWorkouts as workout}
     <WorkoutCard
@@ -353,8 +384,11 @@ return filteredWorkouts;
   </WorkoutCard>
     {/each}
   </div>
-    
 </div>
+ 
+
+
+
 
 
   
@@ -442,8 +476,10 @@ return filteredWorkouts;
 }
 
 .toggle-switch {
-  display: none;
+  display:none;
 }
+
+
 
 .toggle-label {
   display: inline-block;
