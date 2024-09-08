@@ -317,7 +317,7 @@ let toggleGroups = [
     applyFilters();
   }
 
-
+ 
   function applyFilters() {
   // Copy filteredWorkouts to avoid mutating the original array
   let currentFilteredWorkouts = [...filteredWorkouts];
@@ -348,6 +348,7 @@ let toggleGroups = [
 
   // Log the results for debugging purposes
   console.log('Filtered workouts after applying toggles:', currentFilteredWorkouts);
+  filteredWorkouts = [...currentFilteredWorkouts];
 
   // Return the filtered workouts
   return currentFilteredWorkouts;
