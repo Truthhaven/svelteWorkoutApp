@@ -284,17 +284,77 @@ let toggleGroups = [
   ];
 
   /**
+   * @type {any[]}
+   */
+  let selectedToggles= [];
+  /**
    * @param {string} id
    */
-  function handleChange(id) {
-  //console.log(`Toggle with id ${id} changed`);
-  toggleGroups = toggleGroups.map(group => ({
-    ...group,
-    items: group.items.map(toggle => 
-      toggle.id === id ? { ...toggle, isSelected: !toggle.isSelected } : toggle
-    )
-  }));
+   function handleChange(id) {
+    // Update toggleGroups to reflect the change in isSelected
+    toggleGroups = toggleGroups.map(group => ({
+      ...group,
+      items: group.items.map(toggle => {
+        if (toggle.id === id) {
+          const newSelectionState = !toggle.isSelected;
+
+          // Update the selectedToggles array based on the new state
+          if (newSelectionState) {
+            // If the toggle is selected, add its id to selectedToggles
+            selectedToggles = [...selectedToggles, id];
+          } else {
+            // If the toggle is deselected, remove its id from selectedToggles
+            selectedToggles = selectedToggles.filter(tog => tog !== id);
+          }
+
+          // Return the updated toggle with its new selection state
+          return { ...toggle, isSelected: newSelectionState };
+        }
+        return toggle;
+      })
+    }));
+    console.log(selectedToggles);
+    applyFilters();
+  }
+
+
+  function applyFilters() {
+  // Copy filteredWorkouts to avoid mutating the original array
+  let currentFilteredWorkouts = [...filteredWorkouts];
+
+  // Define arrays for different filter criteria based on the entire workout dataset
+  const workoutsWithImages = currentFilteredWorkouts.filter(workout => workout.images && workout.images.length > 0);
+  const workoutsWithEquipment = currentFilteredWorkouts.filter(workout => 
+   workout.equipment && workout.equipment.some((/** @type {{ name: string; }} */ equip) => equip.name.toLowerCase() !== "none (bodyweight exercise)")
+  );
+  const workoutsWithoutEquipment = currentFilteredWorkouts.filter(workout => 
+    !workout.equipment || workout.equipment.every((/** @type {{ name: string; }} */ equip) => equip.name.toLowerCase() === "none (bodyweight exercise)")
+  );
+  const workoutsWithDescription = currentFilteredWorkouts.filter(workout => workout.description && workout.description.trim().length > 0);
+
+  // Apply filters based on selected toggles
+  if (selectedToggles.includes("images")) {
+    currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithImages.includes(workout));
+  }
+  if (selectedToggles.includes("withEquipment")) {
+    currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithEquipment.includes(workout));
+  }
+  if (selectedToggles.includes("noEquipment")) {
+    currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithoutEquipment.includes(workout));
+  }
+  if (selectedToggles.includes("description")) {
+   currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithDescription.includes(workout));
+ }
+
+  // Log the results for debugging purposes
+  console.log('Filtered workouts after applying toggles:', currentFilteredWorkouts);
+
+  // Return the filtered workouts
+  return currentFilteredWorkouts;
 }
+
+
+
 
 </script>
 
