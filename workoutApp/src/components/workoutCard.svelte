@@ -1,6 +1,7 @@
 
 <script>
   import { workoutStore } from '../stores/workoutStore';
+  import workoutQueueStore from '../stores/workoutQueueStore';
   /**
    * @type {any}
    */
@@ -19,13 +20,33 @@
     workoutStore.set({ workoutName, imgSrc, workoutDescription });
     goto('/workoutInfoPage');
   }
+
+  /**
+   * @type {any[]}
+   */
+  let workouts = [];
+
+  const unsubscribe = workoutQueueStore.subscribe(value => {
+    workouts = value; 
+  });
+
+
+  /**
+   * @param {any} name
+   */
+  function submitWorkout(name) {
+    workoutQueueStore.addWorkout({ name });
+    console.log('Current workouts:', workouts); 
+  }
+
+
 </script>
 
 
 <div class = "workoutCard"> 
   <div class = "workoutHeader">
     <h1 class = "workoutName">{workoutName}</h1>
-    <button class = "addWorkout">+</button>
+    <button class = "addWorkout" on:click={() => submitWorkout(workoutName)}>+</button>
   </div>
     
     <img class = "workoutImg" src = {imgSrc} alt = {workoutName}>

@@ -3,7 +3,8 @@
   import { onMount } from 'svelte';
   import workoutInfo from '../englishWorkouts.json';
   import WorkoutCard from '../components/workoutCard.svelte';
- 
+  import workoutQueueStore from '../stores/workoutQueueStore';
+  import WorkoutQueueIcon from '../components/workoutQueueIcon.svelte';
 
 
   let showPopup = false;
@@ -356,7 +357,11 @@ let toggleGroups = [
 }
 
 
+let workoutCount = 0;
 
+const unsubscribe = workoutQueueStore.subscribe(value => {
+  workoutCount = value.length;
+});
 
 </script>
 
@@ -369,8 +374,8 @@ let toggleGroups = [
 
 
 <header>
-    <h1 class = "headerTitle">Exercise App</h1>
-    <img class = "workooutQueueImg" src="../src/queueImage.png" alt="dumbell"> 
+  <h1 class="headerTitle">Exercise App</h1>
+  <WorkoutQueueIcon />
 </header>
 
 <div class = "selection-container"> 
@@ -458,21 +463,18 @@ let toggleGroups = [
   
 <style>
 
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    margin:10px;
+  }
 
 .headerTitle{
   font-weight: bold; 
   text-align: center;
 }
 
-.workooutQueueImg{
-  position: fixed;
-  top: 0;
-  right: 0;
-  /* Optional: Adjust margins or padding if needed */
-  max-width: 100px; /* Adjust size as needed */
-  height: auto;
-  margin: 50px;
-}
 .workout-container {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
