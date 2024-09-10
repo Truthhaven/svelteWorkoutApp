@@ -369,7 +369,8 @@ let toggleGroups = [
 
 
 <header>
-    <h1 style="font-weight: bold; text-align: center;">Exercise App</h1>
+    <h1 class = "headerTitle">Exercise App</h1>
+    <img class = "workooutQueueImg" src="../src/queueImage.png" alt="dumbell"> 
 </header>
 
 <div class = "selection-container"> 
@@ -456,6 +457,22 @@ let toggleGroups = [
 
   
 <style>
+
+
+.headerTitle{
+  font-weight: bold; 
+  text-align: center;
+}
+
+.workooutQueueImg{
+  position: fixed;
+  top: 0;
+  right: 0;
+  /* Optional: Adjust margins or padding if needed */
+  max-width: 100px; /* Adjust size as needed */
+  height: auto;
+  margin: 50px;
+}
 .workout-container {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
