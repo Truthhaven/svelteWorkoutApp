@@ -23,13 +23,23 @@
 
 
 <div class = "workoutCard"> 
+  <div class = "workoutHeader">
     <h1 class = "workoutName">{workoutName}</h1>
+    <button class = "addWorkout">+</button>
+  </div>
+    
     <img class = "workoutImg" src = {imgSrc} alt = {workoutName}>
     <button class = "view-workout-btn" on:click={goToWorkoutPage}>View Workout</button>
+    
 </div>
 
 
 <style>
+  .workoutHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+  }
 .workoutCard {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
@@ -75,5 +85,31 @@
   opacity: 1; 
 }
 
+.addWorkout {
+  background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+  text-decoration: none;
+  border-radius: 0 0 8px 8px; 
+  transform: translateY(-50%); 
+  transition: transform 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.workoutCard:hover .addWorkout {
+  transform: translateY(0); 
+  opacity: 1; 
+}
+
+
+  
 
 </style>
