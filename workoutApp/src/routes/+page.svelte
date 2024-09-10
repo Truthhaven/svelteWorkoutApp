@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import workoutInfo from '../englishWorkouts.json';
   import WorkoutCard from '../components/workoutCard.svelte';
+ 
 
 
   let showPopup = false;
@@ -441,7 +442,8 @@ let toggleGroups = [
     {#each filteredWorkouts as workout}
     <WorkoutCard
     workoutName={workout.name}
-    imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}> 
+    imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
+    workoutDescription = {workout.description}> 
   </WorkoutCard>
     {/each}
   </div>
