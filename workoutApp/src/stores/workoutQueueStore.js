@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable} from 'svelte/store';
 
 // Initial empty array of workouts
 /**
@@ -21,6 +21,7 @@ const addWorkout = (/** @type {{ name: any; }} */ workout) =>
 const reset = () => {
   set(WORKOUTS);
 };
+
 
 export default {
   subscribe,

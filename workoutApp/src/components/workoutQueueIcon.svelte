@@ -8,15 +8,23 @@
     
     const unsubscribe = workoutQueueStore.subscribe(value => {
       workoutCount = value.length;
+      console.log(value);
     });
   
     onDestroy(() => {
       unsubscribe(); 
     });
+
+    import { goto } from '$app/navigation';
+
+    function goToWorkoutQueue() {
+    goto('/workoutQueuePage');
+  }
   </script>
   
+  
   <div class="queueContainer">
-    <img class="workoutQueueImg" src="../src/queueImage.png" alt="dumbbell">
+    <img class="workoutQueueImg" src="../src/queueImage.png" alt="dumbbell" on:click={goToWorkoutQueue}>
     {#if workoutCount > 0}
       <div class="notificationDot">
         {workoutCount}

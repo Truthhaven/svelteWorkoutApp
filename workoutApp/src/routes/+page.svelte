@@ -6,7 +6,10 @@
   import workoutQueueStore from '../stores/workoutQueueStore';
   import WorkoutQueueIcon from '../components/workoutQueueIcon.svelte';
 
-
+  /**
+   * @type {any[]}
+   */
+   export let muscles; 
   let showPopup = false;
 
   onMount(() => {
@@ -26,7 +29,7 @@
  *
  * @type {Array.<{id: string; path: string; isSelected: boolean; isFront: boolean; isBack: boolean; front: undefined | SVGPathElement; back: undefined | SVGPathElement; }>}
  */
-  let muscles = [
+muscles = [
     {
       id: "Trapezius",
       path: "M146.217 82.5107C154.151 82.087 147.315 73.3304 146.217 71C144.507 73.4011 130.47 81.0278 124 82.5107C132.152 83.3582 138.282 82.9345 146.217 82.5107Z M183.22 83.47C192.07 83.929 198.906 84.388 208 83.47C200.784 81.8634 185.127 73.6012 183.22 71C181.995 73.5246 174.37 83.011 183.22 83.47Z",
@@ -35,6 +38,7 @@
       isBack: false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
     },
 
     {
@@ -45,6 +49,7 @@
       isBack : false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
     },
     {
       id:"Chest",  
@@ -54,6 +59,7 @@
       isBack : false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
 
     },
       {
@@ -64,6 +70,7 @@
       isBack : false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
 
       },
 
@@ -75,6 +82,7 @@
       isBack: false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
 
       },
 
@@ -86,6 +94,7 @@
       isBack : false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
 
       {
@@ -96,6 +105,7 @@
       isBack: false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
 
       {
@@ -106,6 +116,7 @@
       isBack : false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
       {
       id:"Quads", 
@@ -115,6 +126,7 @@
       isBack : false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
 
       {
@@ -125,6 +137,7 @@
       isBack :false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
 
       {
@@ -135,6 +148,7 @@
       isBack : false,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
 
       {
@@ -145,6 +159,7 @@
       isBack : true,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
       {
       id:"Lats",   
@@ -154,6 +169,7 @@
       isBack : true,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
       {
       id:"Triceps brachii",  
@@ -163,6 +179,7 @@
       isBack : true,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
       {
       id:"Glutes",   
@@ -172,6 +189,7 @@
       isBack : true,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
       
       {
@@ -182,6 +200,7 @@
       isBack : true,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       },
       {
       id:"Calves (back)",   
@@ -191,13 +210,14 @@
       isBack : true,
       front: undefined,
       back: undefined,
+      workoutCount: 0
       }
     
     
   ]
  
 
- // Function to check if a muscle is selected
+
  /**
    * @param {string} muscleName
    */
@@ -205,7 +225,7 @@
         return muscles.find(muscle => muscle.id === muscleName)?.isSelected || false;
     }
 
-    // Function to toggle the muscle selection
+ 
     /**
    * @param {string} muscleName
    */
@@ -217,51 +237,82 @@
         );
         getSelectedBodyParts();
     }
-    
-    /**
-   * @type {any[]}
-   */
-    let filteredWorkouts = [];
-// Function to get an array of selected body parts.
+/**
+ * @type {any[]}
+ */
+ let filteredWorkouts = [];
+
+/**
+ * @type {any[]}
+ */
+let efficientWorkouts = [];
+
+
 function getSelectedBodyParts() {
 
-let arr = [];
+  let arr = [];
 
-// Loop through each muscle and add selected ones to the array.
-for( let muscle of muscles){
-  if(muscle.isSelected){
-    arr.push(muscle.id)
+  
+  for (let muscle of muscles) {
+    if (muscle.isSelected) {
+      arr.push(muscle.id);
+    }
   }
-}
 
-// Filter the workouts based on the selected body parts.
-filteredWorkouts = workoutInfo.filter((workout) => {
-for (let bp of arr) {
-  if (
-    workout.category.name.trim().toLowerCase() ===
-      bp.trim().toLowerCase() ||
-    workout.muscles.some(
-      (muscle) =>
-        muscle.name_en.trim().toLowerCase() === bp.trim().toLowerCase()
-    ) ||
-    workout.muscles.some(
-      (muscle) =>
+  
+  filteredWorkouts = workoutInfo.filter((workout) => {
+    return arr.some(bp =>
+      workout.category.name.trim().toLowerCase() === bp.trim().toLowerCase() ||
+      workout.muscles.some(muscle =>
+        muscle.name_en.trim().toLowerCase() === bp.trim().toLowerCase() ||
         muscle.name.trim().toLowerCase() === bp.trim().toLowerCase()
-    )
-  ) {
-    return true;
-  }
-}
-return false;
-});
-filteredWorkouts = filteredWorkouts.sort((a, b) => {
+      )
+    );
+  });
+
+  
+  filteredWorkouts.sort((a, b) => {
     const hasImageA = a.images && a.images.length > 0;
     const hasImageB = b.images && b.images.length > 0;
     return hasImageB - hasImageA;
   });
-console.log(filteredWorkouts);
-return filteredWorkouts;
+
+  
+  console.log(filteredWorkouts);
+
+  //filteredWorkouts[0].muscles.forEach((/** @type {{ name: any; }} */ muscle) => {
+    // console.log(muscle)})
+    // filteredWorkouts[0].muscles_secondary.forEach((/** @type {{ name: any; }} */ muscle) => {
+    // console.log(muscle);
+    
+//});
+  /**
+   * @type {any[]}
+   */
+let primaryMuscles = [];
+  /**
+   * @type {any[]}
+   */
+let secondaryMuscles = [];
+
+
+
+let efficientWorkouts = [];
+for(let i = 0; i < filteredWorkouts.length; i++){
+  filteredWorkouts[i].muscles.forEach((/** @type {{ name: any; }} */ muscle) => {
+    primaryMuscles.push(muscle.name)});
+
+    filteredWorkouts[i].muscles_secondary.forEach((/** @type {{ name: any; }} */ muscle) => {
+      secondaryMuscles.push(muscle.name)});
 }
+console.log("primary muscles: " + primaryMuscles.length);
+console.log("secondary muscles: " +secondaryMuscles.length);
+
+
+
+  return filteredWorkouts;
+}
+
 
 let toggleGroups = [
     {
@@ -293,38 +344,37 @@ let toggleGroups = [
    * @param {string} id
    */
    function handleChange(id) {
-    // Update toggleGroups to reflect the change in isSelected
+    
     toggleGroups = toggleGroups.map(group => ({
       ...group,
       items: group.items.map(toggle => {
         if (toggle.id === id) {
           const newSelectionState = !toggle.isSelected;
 
-          // Update the selectedToggles array based on the new state
           if (newSelectionState) {
-            // If the toggle is selected, add its id to selectedToggles
+            
             selectedToggles = [...selectedToggles, id];
           } else {
-            // If the toggle is deselected, remove its id from selectedToggles
+            
             selectedToggles = selectedToggles.filter(tog => tog !== id);
           }
 
-          // Return the updated toggle with its new selection state
+         
           return { ...toggle, isSelected: newSelectionState };
         }
         return toggle;
       })
     }));
-    console.log(selectedToggles);
+    console.log("selected toggles:" + selectedToggles);
     applyFilters();
   }
 
  
   function applyFilters() {
-  // Copy filteredWorkouts to avoid mutating the original array
+
   let currentFilteredWorkouts = [...filteredWorkouts];
 
-  // Define arrays for different filter criteria based on the entire workout dataset
+
   const workoutsWithImages = currentFilteredWorkouts.filter(workout => workout.images && workout.images.length > 0);
   const workoutsWithEquipment = currentFilteredWorkouts.filter(workout => 
    workout.equipment && workout.equipment.some((/** @type {{ name: string; }} */ equip) => equip.name.toLowerCase() !== "none (bodyweight exercise)")
@@ -334,7 +384,7 @@ let toggleGroups = [
   );
   const workoutsWithDescription = currentFilteredWorkouts.filter(workout => workout.description && workout.description.trim().length > 0);
 
-  // Apply filters based on selected toggles
+
   if (selectedToggles.includes("images")) {
     currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithImages.includes(workout));
   }
@@ -348,11 +398,11 @@ let toggleGroups = [
    currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithDescription.includes(workout));
  }
 
-  // Log the results for debugging purposes
+
   console.log('Filtered workouts after applying toggles:', currentFilteredWorkouts);
   filteredWorkouts = [...currentFilteredWorkouts];
 
-  // Return the filtered workouts
+
   return currentFilteredWorkouts;
 }
 
@@ -362,6 +412,12 @@ let workoutCount = 0;
 const unsubscribe = workoutQueueStore.subscribe(value => {
   workoutCount = value.length;
 });
+
+
+
+
+
+
 
 </script>
 
@@ -447,10 +503,13 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
   <div class = "workout-container">
     {#each filteredWorkouts as workout}
     <WorkoutCard
+    muscles = {muscles}
     workoutName={workout.name}
     imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
-    workoutDescription = {workout.description}> 
-  </WorkoutCard>
+    workoutDescription={workout.description}
+    compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
+    isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}
+  />
     {/each}
   </div>
 </div>
@@ -539,17 +598,6 @@ header {
 .info-button:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
-}
-
-.title-info{
-  display: flex;
-}
-
-.toggle-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-right: 20px;
 }
 
 .toggle-item {

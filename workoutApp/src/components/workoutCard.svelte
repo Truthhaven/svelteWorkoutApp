@@ -2,6 +2,8 @@
 <script>
   import { workoutStore } from '../stores/workoutStore';
   import workoutQueueStore from '../stores/workoutQueueStore';
+  import { efficientWorkoutStore } from '../stores/efficientWorkoutStore'; 
+
   /**
    * @type {any}
    */
@@ -14,10 +16,23 @@
    * @type {any}
    */
    export let workoutDescription;
+
+
+  /**
+   * @type {any}
+   */
+   export let compound = false;
+
+  /**
+   * @type {any}
+   */
+   export let isolation = false;
+
   import { goto } from '$app/navigation';
 
+
   function goToWorkoutPage() {
-    workoutStore.set({ workoutName, imgSrc, workoutDescription });
+    workoutStore.set({ workoutName, imgSrc, workoutDescription, compound, isolation});
     goto('/workoutInfoPage');
   }
 
@@ -26,11 +41,7 @@
    */
   let workouts = [];
 
-  const unsubscribe = workoutQueueStore.subscribe(value => {
-    workouts = value; 
-  });
-
-
+ 
   /**
    * @param {any} name
    */
@@ -39,19 +50,91 @@
     console.log('Current workouts:', workouts); 
   }
 
+ export const minimal = true;
 
+ import workoutInfo from '../englishWorkouts.json';
+
+ import { onMount } from 'svelte';
+
+
+    /**
+   * @type {string | any[] | undefined} 
+   */
+   export let muscles;
+
+ onMount(() => {matchedWorkouts(workoutName)})
+ 
+
+  /**
+   * @type {string[]}
+   */
+   let efficientWorkouts = [];
+
+/**
+  * @param {string} [workoutName]
+  */
+function matchedWorkouts(workoutName) {
+ 
+ let matchWorkout = workoutInfo.find((workout) => workout.name === workoutName);
+
+
+ if (Array.isArray(muscles)) {
+   
+   let selectedMuscles = muscles.filter(muscle => muscle.isSelected);
+
+   
+   let selectedMuscleCount = 0;
+
+   
+   if (matchWorkout) {
+     
+     selectedMuscles.forEach(selectedMuscle => {
+       
+       if (matchWorkout.muscles.some(muscle => muscle.name_en === selectedMuscle.id)) {
+         selectedMuscleCount++;
+       }
+     });
+
+    
+     if (selectedMuscleCount >= 2) {
+      efficientWorkouts.push(matchWorkout.name);
+     }
+   } else {
+     console.log(`No workout found with the name "${workoutName}".`);
+   }
+ } else {
+   console.error('Muscles data is not defined or is not an array');
+ }
+ console.log(efficientWorkouts);
+ return efficientWorkouts;
+}
+
+
+
+  
+
+ 
 </script>
 
 
 <div class = "workoutCard"> 
   <div class = "workoutHeader">
     <h1 class = "workoutName">{workoutName}</h1>
+    {#if minimal}
     <button class = "addWorkout" on:click={() => submitWorkout(workoutName)}>+</button>
+    {/if}
   </div>
     
     <img class = "workoutImg" src = {imgSrc} alt = {workoutName}>
+    {#if isolation}
+    <h2 style="display: none;">Isolation Workout</h2>
+  {:else}
+    <h2 style="display: none;"> Compound Workout</h2>
+  {/if}
+
+    {#if minimal}
     <button class = "view-workout-btn" on:click={goToWorkoutPage}>View Workout</button>
-    
+    {/if}
 </div>
 
 
@@ -68,6 +151,8 @@
   border-radius: 5px;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 126px;
+  height: 277px;
 }
 
 .workoutCard:hover {
@@ -121,7 +206,7 @@
   text-decoration: none;
   border-radius: 0 0 8px 8px; 
   transform: translateY(-50%); 
-  transition: transform 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
   opacity: 0;
 }
 
