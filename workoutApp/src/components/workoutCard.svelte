@@ -76,31 +76,38 @@
 function matchedWorkouts(workoutName) {
  
  let matchWorkout = workoutInfo.find((workout) => workout.name === workoutName);
-
-
  if (Array.isArray(muscles)) {
    
    let selectedMuscles = muscles.filter(muscle => muscle.isSelected);
-
-   
    let selectedMuscleCount = 0;
 
    /**
     * @type {any[]}
     */
    let musclesUsedInWorkout = [];
+   /**
+    * @type {string | any[]}
+    */
+   let countedMuscleIds = [];
 
    if (matchWorkout) {
      
      selectedMuscles.forEach(selectedMuscle => {
-       
-       if (matchWorkout.muscles.some(muscle => (muscle.name_en === selectedMuscle.id) || (muscle.name === selectedMuscle.id))) {
+       //primary muscles
+       if (matchWorkout.muscles.some(muscle => (muscle.name_en === selectedMuscle.id) || (muscle.name === selectedMuscle.id) && !countedMuscleIds.includes(selectedMuscle.id))) {
          selectedMuscleCount++;
          musclesUsedInWorkout.push(selectedMuscle.id);
+         countedMuscleIds.push(selectedMuscle.id);
        }
+       //secondary muscles
+       if (matchWorkout.muscles_secondary.some(muscle => (muscle.name_en === selectedMuscle.id) || (muscle.name === selectedMuscle.id) && !countedMuscleIds.includes(selectedMuscle.id))) {
+         selectedMuscleCount++;
+         musclesUsedInWorkout.push(selectedMuscle.id);
+         countedMuscleIds.push(selectedMuscle.id);
+       }
+
      });
 
-    
      if (selectedMuscleCount >= 2) {
       efficientWorkouts.push(matchWorkout.name);
       console.log(`Workout "${matchWorkout.name}" uses the following selected muscles: ${musclesUsedInWorkout.join(', ')}`);
