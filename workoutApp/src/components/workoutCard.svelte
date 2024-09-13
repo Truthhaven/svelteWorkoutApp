@@ -85,19 +85,26 @@ function matchedWorkouts(workoutName) {
    
    let selectedMuscleCount = 0;
 
-   
+   /**
+    * @type {any[]}
+    */
+   let musclesUsedInWorkout = [];
+
    if (matchWorkout) {
      
      selectedMuscles.forEach(selectedMuscle => {
        
-       if (matchWorkout.muscles.some(muscle => muscle.name_en === selectedMuscle.id)) {
+       if (matchWorkout.muscles.some(muscle => (muscle.name_en === selectedMuscle.id) || (muscle.name === selectedMuscle.id))) {
          selectedMuscleCount++;
+         musclesUsedInWorkout.push(selectedMuscle.id);
        }
      });
 
     
      if (selectedMuscleCount >= 2) {
       efficientWorkouts.push(matchWorkout.name);
+      console.log(`Workout "${matchWorkout.name}" uses the following selected muscles: ${musclesUsedInWorkout.join(', ')}`);
+      
      }
    } else {
      console.log(`No workout found with the name "${workoutName}".`);
