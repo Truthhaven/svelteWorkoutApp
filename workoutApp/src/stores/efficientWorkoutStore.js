@@ -12,9 +12,11 @@ const { subscribe, set, update } = writable(WORKOUTS);
 
 const addWorkout = (/** @type {{ name: any; }} */ workout) =>
   update((workouts) => {
+    console.log(workouts)
     if (!workouts.find(existingWorkout => existingWorkout.name === workout.name)) {
       return [...workouts, workout];
     }
+
     return workouts; 
   });
 
