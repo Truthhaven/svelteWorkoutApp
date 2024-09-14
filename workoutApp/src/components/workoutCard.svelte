@@ -2,7 +2,7 @@
 <script>
   import { workoutStore } from '../stores/workoutStore';
   import workoutQueueStore from '../stores/workoutQueueStore';
-  import { efficientWorkoutStore } from '../stores/efficientWorkoutStore'; 
+  import efficientWorkoutStore  from '../stores/efficientWorkoutStore'; 
 
   /**
    * @type {any}
@@ -55,6 +55,7 @@
  import workoutInfo from '../englishWorkouts.json';
 
  import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
 
 
     /**
@@ -65,10 +66,8 @@
  onMount(() => {matchedWorkouts(workoutName)})
  
 
-  /**
-   * @type {string[]}
-   */
-   let efficientWorkouts = [];
+  
+   let efficientWorkouts = writable([]);
 
 /**
   * @param {string} [workoutName]
@@ -85,31 +84,30 @@ function matchedWorkouts(workoutName) {
     * @type {any[]}
     */
    let musclesUsedInWorkout = [];
-   /**
-    * @type {string | any[]}
-    */
-   let countedMuscleIds = [];
+ 
 
    if (matchWorkout) {
      
      selectedMuscles.forEach(selectedMuscle => {
        //primary muscles
-       if (matchWorkout.muscles.some(muscle => (muscle.name_en === selectedMuscle.id) || (muscle.name === selectedMuscle.id) && !countedMuscleIds.includes(selectedMuscle.id))) {
+       if (matchWorkout.muscles.some(muscle => (muscle.name_en === selectedMuscle.id) || (muscle.name === selectedMuscle.id))) {
          selectedMuscleCount++;
          musclesUsedInWorkout.push(selectedMuscle.id);
-         countedMuscleIds.push(selectedMuscle.id);
+         
        }
        //secondary muscles
-       if (matchWorkout.muscles_secondary.some(muscle => (muscle.name_en === selectedMuscle.id) || (muscle.name === selectedMuscle.id) && !countedMuscleIds.includes(selectedMuscle.id))) {
+       if (matchWorkout.muscles_secondary.some(muscle => (muscle.name_en === selectedMuscle.id) || (muscle.name === selectedMuscle.id))) {
          selectedMuscleCount++;
          musclesUsedInWorkout.push(selectedMuscle.id);
-         countedMuscleIds.push(selectedMuscle.id);
+         
        }
 
      });
 
      if (selectedMuscleCount >= 2) {
-      efficientWorkouts.push(matchWorkout.name);
+      submitEfficientWorkout(matchWorkout.name);
+      $efficientWorkouts.push(matchWorkout.name);
+      $efficientWorkouts=$efficientWorkouts;
       console.log(`Workout "${matchWorkout.name}" uses the following selected muscles: ${musclesUsedInWorkout.join(', ')}`);
       
      }
@@ -119,10 +117,18 @@ function matchedWorkouts(workoutName) {
  } else {
    console.error('Muscles data is not defined or is not an array');
  }
- console.log(efficientWorkouts);
- return efficientWorkouts;
+ console.log("efficient workouts" , $efficientWorkouts);
+ //return efficientWorkouts;
 }
 
+
+  /**
+   * @param {any} name
+   */
+   function submitEfficientWorkout(name) {
+    efficientWorkoutStore.addWorkout({ name });
+    console.log('Current workouts:', workouts); 
+  }
 
 
   

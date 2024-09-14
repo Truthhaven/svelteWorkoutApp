@@ -5,7 +5,7 @@
   import WorkoutCard from '../components/workoutCard.svelte';
   import workoutQueueStore from '../stores/workoutQueueStore';
   import WorkoutQueueIcon from '../components/workoutQueueIcon.svelte';
-
+  import SuggestWorkouts from '../components/suggestWorkouts.svelte';
   /**
    * @type {any[]}
    */
@@ -512,6 +512,7 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
   />
     {/each}
   </div>
+  <SuggestWorkouts></SuggestWorkouts>
 </div>
  
 
