@@ -10,14 +10,19 @@ const WORKOUTS = [];
 const { subscribe, set, update } = writable(WORKOUTS);
 
 
-const addWorkout = (/** @type {{ name: any; }} */ workout) =>
+const addWorkout = async (/** @type {{ name: any; }} */ workout) =>
   update((workouts) => {
-    console.log(workouts)
-    if (!workouts.find(existingWorkout => existingWorkout.name === workout.name)) {
+    /*
+    let foundWorkouts = workouts.find(existingWorkout => {
+      console.log("existing name:", existingWorkout.name, "workout name", workout.name);
+      return existingWorkout.name === workout.name;
+    })
+    console.log(foundWorkouts, !foundWorkouts)
+    if (!foundWorkouts) {
       return [...workouts, workout];
-    }
-
-    return workouts; 
+    } */
+    
+    return [...workouts, workout]; 
   });
 
 

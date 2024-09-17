@@ -242,75 +242,30 @@ muscles = [
  */
  let filteredWorkouts = [];
 
-/**
- * @type {any[]}
- */
-let efficientWorkouts = [];
+
+let efficientWorkouts = new Map();
 
 
 function getSelectedBodyParts() {
-
-  let arr = [];
-
-  
-  for (let muscle of muscles) {
-    if (muscle.isSelected) {
-      arr.push(muscle.id);
-    }
+  efficientWorkouts = new Map();
+  let selectedMuscles = muscles.filter(muscle => muscle.isSelected);
+  for(let muscle of selectedMuscles){
+      for(let workout of workoutInfo){
+        let combined = [...workout.muscles, ...workout.muscles_secondary];
+        for(let workoutMuscle of combined){
+            if(muscle.id === workoutMuscle.name || workoutMuscle.name_en === muscle.id){
+              let temp = efficientWorkouts.get(workout.id);
+              if(temp){
+                temp.matchCount++;
+              } else {
+                efficientWorkouts.set(workout.id,{...workout, matchCount: 1});
+              }
+              break;
+            } 
+        }
+      }
   }
-
-  
-  filteredWorkouts = workoutInfo.filter((workout) => {
-    return arr.some(bp =>
-      workout.category.name.trim().toLowerCase() === bp.trim().toLowerCase() ||
-      workout.muscles.some(muscle =>
-        muscle.name_en.trim().toLowerCase() === bp.trim().toLowerCase() ||
-        muscle.name.trim().toLowerCase() === bp.trim().toLowerCase()
-      )
-    );
-  });
-
-  
-  filteredWorkouts.sort((a, b) => {
-    const hasImageA = a.images && a.images.length > 0;
-    const hasImageB = b.images && b.images.length > 0;
-    return hasImageB - hasImageA;
-  });
-
-  
-  console.log(filteredWorkouts);
-
-  //filteredWorkouts[0].muscles.forEach((/** @type {{ name: any; }} */ muscle) => {
-    // console.log(muscle)})
-    // filteredWorkouts[0].muscles_secondary.forEach((/** @type {{ name: any; }} */ muscle) => {
-    // console.log(muscle);
-    
-//});
-  /**
-   * @type {any[]}
-   */
-let primaryMuscles = [];
-  /**
-   * @type {any[]}
-   */
-let secondaryMuscles = [];
-
-
-
-let efficientWorkouts = [];
-for(let i = 0; i < filteredWorkouts.length; i++){
-  filteredWorkouts[i].muscles.forEach((/** @type {{ name: any; }} */ muscle) => {
-    primaryMuscles.push(muscle.name)});
-
-    filteredWorkouts[i].muscles_secondary.forEach((/** @type {{ name: any; }} */ muscle) => {
-      secondaryMuscles.push(muscle.name)});
-}
-console.log("primary muscles: " + primaryMuscles.length);
-console.log("secondary muscles: " +secondaryMuscles.length);
-
-
-
-  return filteredWorkouts;
+  console.log([...efficientWorkouts.values()]);
 }
 
 
@@ -501,9 +456,8 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
     {/each}
   </svg>
   <div class = "workout-container">
-    {#each filteredWorkouts as workout}
+    {#each [...efficientWorkouts.values()] as workout}
     <WorkoutCard
-    muscles = {muscles}
     workoutName={workout.name}
     imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
     workoutDescription={workout.description}
