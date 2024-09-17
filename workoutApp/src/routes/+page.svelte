@@ -265,7 +265,10 @@ function getSelectedBodyParts() {
         }
       }
   }
+  const matchCounts = Array.from(efficientWorkouts.values()).map(obj => obj.matchCount);
+  const uniqueMatchCounts = [...new Set(matchCounts)];
   console.log([...efficientWorkouts.values()]);
+  console.log(uniqueMatchCounts);
 }
 
 
