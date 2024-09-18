@@ -9,12 +9,14 @@ const WORKOUTS = [];
 const { subscribe, set, update } = writable(WORKOUTS);
 
 
-const addWorkout = (/** @type {{ name: any; }} */ workout) =>
+const addWorkout = (/** @type {{ name: any; musclesUsed: any;  }} */ workout) =>
   update((workouts) => {
     if (!workouts.find(existingWorkout => existingWorkout.name === workout.name)) {
       return [...workouts, workout];
     }
-    console.log("workout queue", workouts);
+    
+    workouts.forEach((workout) => console.log("muscles used in queue", workout.musclesUsed));
+    
     return workouts; 
   });
 

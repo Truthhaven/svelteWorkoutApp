@@ -26,6 +26,15 @@
    */
   export let isolation = false;
 
+  /**
+   * @type {any}
+   */
+   export let musclesUsed;
+
+
+
+
+
   import { goto } from "$app/navigation";
 
   function goToWorkoutPage() {
@@ -35,6 +44,7 @@
       workoutDescription,
       compound,
       isolation,
+      musclesUsed
     });
     goto("/workoutInfoPage");
   }
@@ -46,17 +56,16 @@
 
   /**
    * @param {any} name
+  
+
    */
   function submitWorkout(name) {
-    workoutQueueStore.addWorkout({ name });
+    workoutQueueStore.addWorkout({ name, musclesUsed });
     console.log("Current workouts:", workouts);
   }
 
   export const minimal = true;
 
-  import workoutInfo from "../englishWorkouts.json";
-
-  import { onMount } from "svelte";
 
 
 </script>

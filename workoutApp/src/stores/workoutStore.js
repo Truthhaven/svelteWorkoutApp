@@ -5,6 +5,7 @@ export const workoutStore = writable({
   imgSrc: '',
   workoutDescription: '',
   isolation: '',
-  compound: ''
+  compound: '',
+  musclesUsed: ''
 });
 

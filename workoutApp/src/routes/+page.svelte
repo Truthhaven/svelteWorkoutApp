@@ -491,6 +491,7 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
         workoutDescription={workout.description}
         compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
         isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}
+        musclesUsed={[...workout.muscles, ...workout.muscles_secondary]}
       />
     {/each}
   </div>
