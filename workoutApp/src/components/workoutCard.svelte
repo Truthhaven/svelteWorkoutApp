@@ -1,7 +1,7 @@
 <script>
   import { workoutStore } from "../stores/workoutStore";
   import workoutQueueStore from "../stores/workoutQueueStore";
-  import efficientWorkoutStore from "../stores/efficientWorkoutStore";
+
 
   /**
    * @type {any}

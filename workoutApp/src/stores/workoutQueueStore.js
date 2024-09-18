@@ -14,6 +14,7 @@ const addWorkout = (/** @type {{ name: any; }} */ workout) =>
     if (!workouts.find(existingWorkout => existingWorkout.name === workout.name)) {
       return [...workouts, workout];
     }
+    console.log("workout queue", workouts);
     return workouts; 
   });
 

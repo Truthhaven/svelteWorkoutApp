@@ -5,7 +5,8 @@
   import WorkoutCard from '../components/workoutCard.svelte';
   import workoutQueueStore from '../stores/workoutQueueStore';
   import WorkoutQueueIcon from '../components/workoutQueueIcon.svelte';
-  import SuggestWorkouts from '../components/suggestWorkouts.svelte';
+  import {musclesStore} from '../stores/muscles.js';
+
   /**
    * @type {any[]}
    */
@@ -27,7 +28,7 @@
   /**
  * Description placeholder
  *
- * @type {Array.<{id: string; path: string; isSelected: boolean; isFront: boolean; isBack: boolean; front: undefined | SVGPathElement; back: undefined | SVGPathElement; }>}
+ * @type {Array.<{id: string; path: string; isSelected: boolean; isFront: boolean; isBack: boolean; front: undefined; worked: boolean| SVGPathElement; back: undefined | SVGPathElement; }>}
  */
 muscles = [
     {
@@ -38,7 +39,7 @@ muscles = [
       isBack: false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
     },
 
     {
@@ -49,7 +50,7 @@ muscles = [
       isBack : false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
     },
     {
       id:"Chest",  
@@ -59,7 +60,7 @@ muscles = [
       isBack : false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
 
     },
       {
@@ -70,7 +71,7 @@ muscles = [
       isBack : false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
 
       },
 
@@ -82,7 +83,7 @@ muscles = [
       isBack: false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
 
       },
 
@@ -94,7 +95,7 @@ muscles = [
       isBack : false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
 
       {
@@ -105,7 +106,7 @@ muscles = [
       isBack: false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
 
       {
@@ -116,7 +117,7 @@ muscles = [
       isBack : false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
       {
       id:"Quads", 
@@ -126,7 +127,7 @@ muscles = [
       isBack : false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
 
       {
@@ -137,7 +138,7 @@ muscles = [
       isBack :false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
 
       {
@@ -148,7 +149,7 @@ muscles = [
       isBack : false,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
 
       {
@@ -159,7 +160,7 @@ muscles = [
       isBack : true,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
       {
       id:"Lats",   
@@ -169,7 +170,7 @@ muscles = [
       isBack : true,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
       {
       id:"Triceps brachii",  
@@ -179,7 +180,7 @@ muscles = [
       isBack : true,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
       {
       id:"Glutes",   
@@ -189,7 +190,7 @@ muscles = [
       isBack : true,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
       
       {
@@ -200,7 +201,7 @@ muscles = [
       isBack : true,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       },
       {
       id:"Calves (back)",   
@@ -210,7 +211,7 @@ muscles = [
       isBack : true,
       front: undefined,
       back: undefined,
-      workoutCount: 0
+      worked: false
       }
     
     
@@ -235,12 +236,18 @@ muscles = [
                 ? { ...muscle, isSelected: !muscle.isSelected }
                 : muscle
         );
+        musclesStore.set(muscles);
         getSelectedBodyParts();
     }
 /**
  * @type {any[]}
  */
  let filteredWorkouts = [];
+
+ /**
+   * @type {any[]}
+   */
+ let sortedMatchCounts = []; 
 
 
 let efficientWorkouts = new Map();
@@ -266,10 +273,22 @@ function getSelectedBodyParts() {
       }
   }
   const matchCounts = Array.from(efficientWorkouts.values()).map(obj => obj.matchCount);
-  const uniqueMatchCounts = [...new Set(matchCounts)];
+  let uniqueMatchCounts = [...new Set(matchCounts)];
+  sortedMatchCounts = [...uniqueMatchCounts].sort((a, b) => b - a);
   console.log([...efficientWorkouts.values()]);
-  console.log(uniqueMatchCounts);
+  console.log(sortedMatchCounts);
 }
+
+
+  /**
+   * @param {any} matchCount
+   */
+function filterByMatchCount(matchCount){
+  const workoutsArray = [...efficientWorkouts.values()];
+  let matchCountWorkouts = workoutsArray.filter(workout => workout.matchCount === matchCount);
+  return matchCountWorkouts;
+}
+
 
 
 let toggleGroups = [
@@ -459,17 +478,25 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
     {/each}
   </svg>
   <div class = "workout-container">
-    {#each [...efficientWorkouts.values()] as workout}
-    <WorkoutCard
-    workoutName={workout.name}
-    imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
-    workoutDescription={workout.description}
-    compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
-    isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}
-  />
+    
+ 
+ 
+    {#each sortedMatchCounts as count}
+  <h2 style="text-align: center;"> Works {count} out of {sortedMatchCounts.length} muscles</h2>
+  <div class= "groupedByWorkoutCount">
+    {#each filterByMatchCount(count) as workout}
+      <WorkoutCard
+        workoutName={workout.name}
+        imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
+        workoutDescription={workout.description}
+        compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
+        isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}
+      />
     {/each}
   </div>
-  <SuggestWorkouts></SuggestWorkouts>
+{/each}
+  </div>
+  
 </div>
  
 
@@ -480,6 +507,13 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
   
 <style>
 
+.groupedByWorkoutCount{
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 10px;
+  padding: 20px;
+  width: 50%; 
+}
 header {
     background-color: #333;
     color: white;
@@ -492,13 +526,7 @@ header {
   text-align: center;
 }
 
-.workout-container {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 10px;
-  padding: 20px;
-  width: 50%; 
-}
+
 .selection-container {
   display: flex;
   flex-direction: row;    
