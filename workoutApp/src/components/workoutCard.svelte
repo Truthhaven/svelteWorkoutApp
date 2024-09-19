@@ -33,8 +33,6 @@
 
 
 
-
-
   import { goto } from "$app/navigation";
 
   function goToWorkoutPage() {
@@ -54,17 +52,26 @@
    */
   let workouts = [];
 
+    // Track whether the workout is added or not
+    let isAdded = false;
+
   /**
    * @param {any} name
-  
-
    */
   function submitWorkout(name) {
-    workoutQueueStore.addWorkout({ name, musclesUsed });
-    console.log("Current workouts:", workouts);
+    workoutQueueStore.addWorkout({ name, musclesUsed, workoutDescription, imgSrc });
+    isAdded = true; 
+  }
+/**
+   * @param {any} name
+   */
+  function removeWorkout(name) {
+    workoutQueueStore.removeWorkout(name);
+    isAdded = false; 
   }
 
   export const minimal = true;
+
 
 
 
@@ -73,10 +80,12 @@
 <div class="workoutCard">
   <div class="workoutHeader">
     <h1 class="workoutName">{workoutName}</h1>
-    {#if minimal}
-      <button class="addWorkout" on:click={() => submitWorkout(workoutName)}
-        >+</button
-      >
+    {#if isAdded}
+      <!-- Show the minus button if the workout is already added -->
+      <button class="removeWorkout" on:click={() => removeWorkout(workoutName)}>-</button>
+    {:else}
+      <!-- Show the add button if the workout is not added -->
+      <button class="addWorkout" on:click={() => submitWorkout(workoutName)}>+</button>
     {/if}
   </div>
 
@@ -166,7 +175,30 @@
     opacity: 0;
   }
 
+  .removeWorkout {
+    background-color: #cf2f07;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 0 0 8px 8px;
+    transform: translateY(-50%);
+    transition: 0.3s ease-in-out;
+    opacity: 0;
+  }
+
   .workoutCard:hover .addWorkout {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .workoutCard:hover .removeWorkout {
     transform: translateY(0);
     opacity: 1;
   }

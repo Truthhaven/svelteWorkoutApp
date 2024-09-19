@@ -482,7 +482,7 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
  
  
     {#each sortedMatchCounts as count}
-  <h2 style="text-align: center;"> Works {count} out of {sortedMatchCounts.length} muscles</h2>
+  <h2 style="text-align: center;"> Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
   <div class= "groupedByWorkoutCount">
     {#each filterByMatchCount(count) as workout}
       <WorkoutCard

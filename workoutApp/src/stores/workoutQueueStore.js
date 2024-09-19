@@ -9,16 +9,19 @@ const WORKOUTS = [];
 const { subscribe, set, update } = writable(WORKOUTS);
 
 
-const addWorkout = (/** @type {{ name: any; musclesUsed: any;  }} */ workout) =>
+const addWorkout = (/** @type {{ name: any; musclesUsed: any; workoutDescription: any; imgSrc: any;}} */ workout) =>
   update((workouts) => {
     if (!workouts.find(existingWorkout => existingWorkout.name === workout.name)) {
       return [...workouts, workout];
     }
     
-    workouts.forEach((workout) => console.log("muscles used in queue", workout.musclesUsed));
-    
     return workouts; 
   });
+
+// Function to remove a workout by name
+const removeWorkout = (/** @type {string} */ workoutName) =>
+  update((workouts) => workouts.filter(workout => workout.name !== workoutName));
+
 
 
 const reset = () => {
@@ -29,5 +32,6 @@ const reset = () => {
 export default {
   subscribe,
   addWorkout,
+  removeWorkout,
   reset,
 };
