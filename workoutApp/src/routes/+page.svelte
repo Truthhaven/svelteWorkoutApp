@@ -286,6 +286,12 @@ function getSelectedBodyParts() {
 function filterByMatchCount(matchCount){
   const workoutsArray = [...efficientWorkouts.values()];
   let matchCountWorkouts = workoutsArray.filter(workout => workout.matchCount === matchCount);
+  matchCountWorkouts.sort((a, b) => {
+    const aHasImage = a.images && a.images.length > 0;
+    const bHasImage = b.images && b.images.length > 0;
+    return bHasImage - aHasImage;
+  });
+
   return matchCountWorkouts;
 }
 
