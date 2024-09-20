@@ -1,8 +1,10 @@
 <script>
   import { workoutStore } from "../stores/workoutStore";
   import workoutQueueStore from "../stores/workoutQueueStore";
-
-
+  /**
+   * @type {any}
+   */
+  export let workoutId
   /**
    * @type {any}
    */
@@ -34,6 +36,7 @@
 
 
   import { goto } from "$app/navigation";
+  import { onDestroy } from "svelte";
 
   function goToWorkoutPage() {
     workoutStore.set({
@@ -52,28 +55,35 @@
    */
   let workouts = [];
 
-    // Track whether the workout is added or not
-    let isAdded = false;
+  // Track whether the workout is added or not
+  let isAdded = false;
 
   /**
-   * @param {any} name
+   * @param {any} id
    */
-  function submitWorkout(name) {
-    workoutQueueStore.addWorkout({ name, musclesUsed, workoutDescription, imgSrc });
-    isAdded = true; 
+  function submitWorkout(id) {
+    workoutQueueStore.addWorkout({ id, musclesUsed, workoutDescription, imgSrc, name:workoutName });
   }
-/**
-   * @param {any} name
+  /**
+   * @param {any} id
    */
-  function removeWorkout(name) {
-    workoutQueueStore.removeWorkout(name);
-    isAdded = false; 
+  function removeWorkout(id) {
+    workoutQueueStore.removeWorkout(id);
   }
 
   export const minimal = true;
 
+  const unsubscribe = workoutQueueStore.subscribe(isInQueue);
 
 
+   /**
+   * @param {any[]} queue
+   */
+   function isInQueue(queue) {
+    const temp = queue.find(existingWorkout => existingWorkout.id === workoutId);
+   isAdded = !!queue.find(existingWorkout => existingWorkout.id === workoutId);
+}
+onDestroy(() => unsubscribe());
 
 </script>
 
@@ -81,11 +91,9 @@
   <div class="workoutHeader">
     <h1 class="workoutName">{workoutName}</h1>
     {#if isAdded}
-      <!-- Show the minus button if the workout is already added -->
-      <button class="removeWorkout" on:click={() => removeWorkout(workoutName)}>-</button>
+      <button class="removeWorkout" on:click={() => removeWorkout(workoutId)}>-</button>
     {:else}
-      <!-- Show the add button if the workout is not added -->
-      <button class="addWorkout" on:click={() => submitWorkout(workoutName)}>+</button>
+      <button class="addWorkout" on:click={() => submitWorkout(workoutId)}>+</button>
     {/if}
   </div>
 

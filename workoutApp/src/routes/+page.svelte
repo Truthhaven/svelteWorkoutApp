@@ -14,7 +14,12 @@
   let showPopup = false;
 
   onMount(() => {
-    showPopup = true;
+    const hasSeenPopup = localStorage.getItem('hasSeenPopup');
+
+    if (!hasSeenPopup) {
+      showPopup = true;
+      localStorage.setItem('hasSeenPopup', 'true');
+    }
   });
 
   function closePopup() {
@@ -280,21 +285,26 @@ function getSelectedBodyParts() {
 }
 
 
-  /**
-   * @param {any} matchCount
-   */
-function filterByMatchCount(matchCount){
+/**
+ * @param {any} matchCount
+ */
+ function filterByMatchCount(matchCount) {
   const workoutsArray = [...efficientWorkouts.values()];
+
+  // Filter workouts based on the match count
   let matchCountWorkouts = workoutsArray.filter(workout => workout.matchCount === matchCount);
+
+  // Sort by whether the workouts have images
   matchCountWorkouts.sort((a, b) => {
     const aHasImage = a.images && a.images.length > 0;
     const bHasImage = b.images && b.images.length > 0;
     return bHasImage - aHasImage;
   });
 
+  
+  // Return the sorted workouts
   return matchCountWorkouts;
 }
-
 
 
 let toggleGroups = [
@@ -354,7 +364,6 @@ let toggleGroups = [
 
  
   function applyFilters() {
-
   let currentFilteredWorkouts = [...filteredWorkouts];
 
 
@@ -490,8 +499,9 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
     {#each sortedMatchCounts as count}
   <h2 style="text-align: center;"> Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
   <div class= "groupedByWorkoutCount">
-    {#each filterByMatchCount(count) as workout}
+    {#each filterByMatchCount(count) as workout (workout.id)}
       <WorkoutCard
+        workoutId = {workout.id}
         workoutName={workout.name}
         imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
         workoutDescription={workout.description}

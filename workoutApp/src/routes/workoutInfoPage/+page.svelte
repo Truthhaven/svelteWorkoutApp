@@ -32,12 +32,6 @@
    </div>
 
   <style> 
-  body {
-    font-family: Arial, sans-serif;
-    background-color: white;
-    margin: 0;
-    padding: 0;
-  }
   p {
     font-size: 50px;
     margin-top: 3px;

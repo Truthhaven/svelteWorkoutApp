@@ -3,26 +3,10 @@
   import WorkoutCard from '../../components/workoutCard.svelte';
   import workoutQueueStore from '../../stores/workoutQueueStore';
   import {musclesStore} from '../../stores/muscles.js';
-  import { onMount } from 'svelte';
   import { get } from 'svelte/store'; 
 
-let muscles = [];
-let workoutQueue = [];
 
-// Subscribe to the stores on component mount
-onMount(() => {
-    muscles = get(musclesStore);
-    workoutQueue = get(workoutQueueStore);
 
-    workoutQueueStore.subscribe(value => {
-        workoutQueue = value;
-        updateMusclesWorked();
-    });
-
-    musclesStore.subscribe(value => {
-        muscles = value;
-    });
-});
 
 export function updateMusclesWorked() {
     
@@ -53,21 +37,13 @@ export function updateMusclesWorked() {
     });
     
 }
+updateMusclesWorked();
 
-  /**
-   * @param {any} workoutName
-   */
-function handleMouseover(workoutName) {
-    console.log(`Hovered over: ${workoutName}`);
+  
+
+function handleMouseEnter() {
+    console.log('on hover');
   }
-
-  /**
-   * @param {any} workoutName
-   */
-  function handleMouseleave(workoutName) {
-    console.log(`Hover ended on: ${workoutName}`);
-  }
-
 
 
 
@@ -120,8 +96,9 @@ function handleMouseover(workoutName) {
 
 <WorkoutQueueIcon></WorkoutQueueIcon>
 <div class="workouts">
-  {#each $workoutQueueStore as workout}
+  {#each $workoutQueueStore as workout (workout.id)}
     <WorkoutCard
+      workoutId = {workout.id}
       minimal={false}
       workoutName={workout.name}
       imgSrc={workout.imgSrc}
@@ -129,8 +106,6 @@ function handleMouseover(workoutName) {
       compound={workout.compound}
       isolation={workout.isolation}
       musclesUsed=""
-      on:mouseover={() => handleMouseover(workout.name)}
-      on:mouseleave={() => handleMouseleave(workout.name)}
     />
   {/each}
 </div>
