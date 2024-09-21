@@ -7,6 +7,8 @@
   import WorkoutQueueIcon from '../components/workoutQueueIcon.svelte';
   import {musclesStore} from '../stores/muscles.js';
 
+
+
   /**
    * @type {any[]}
    */
@@ -235,15 +237,17 @@ muscles = [
     /**
    * @param {string} muscleName
    */
-    function toggleMuscleSelection(muscleName) {
-        muscles = muscles.map(muscle =>
-            muscle.id === muscleName
-                ? { ...muscle, isSelected: !muscle.isSelected }
-                : muscle
-        );
-        musclesStore.set(muscles);
-        getSelectedBodyParts();
-    }
+   function toggleMuscleSelection(muscleName) {
+    muscles = muscles.map(muscle =>
+        muscle.id === muscleName
+            ? { ...muscle, isSelected: !muscle.isSelected }
+            : muscle
+    );
+    musclesStore.set(muscles);
+    getSelectedBodyParts();  // Update selected body parts and efficientWorkouts
+    applyFilters();  // Apply filters after updating efficientWorkouts
+}
+
 /**
  * @type {any[]}
  */
@@ -285,11 +289,11 @@ function getSelectedBodyParts() {
 }
 
 
-/**
- * @param {any} matchCount
- */
- function filterByMatchCount(matchCount) {
-  const workoutsArray = [...efficientWorkouts.values()];
+  /**
+   * @param {any} matchCount
+   */
+function filterByMatchCount(matchCount) {
+  const workoutsArray = [...filteredWorkouts];  // Use filteredWorkouts
 
   // Filter workouts based on the match count
   let matchCountWorkouts = workoutsArray.filter(workout => workout.matchCount === matchCount);
@@ -301,12 +305,9 @@ function getSelectedBodyParts() {
     return bHasImage - aHasImage;
   });
 
- 
-  // Return the sorted workouts
-  return applyFilters(matchCountWorkouts);
-  
-
+  return matchCountWorkouts;  // Return the filtered and sorted workouts
 }
+
 
 
 let toggleGroups = [
@@ -364,27 +365,21 @@ let toggleGroups = [
     console.log("selected toggles:" + selectedToggles);
     applyFilters();
   }
+  function applyFilters() {
+  // Get workouts from efficientWorkouts Map
+  let currentFilteredWorkouts = [...efficientWorkouts.values()];
 
- 
-  
-  /**
-   * @param {any} [workouts]
-   */
-  function applyFilters(workouts = filteredWorkouts) {
-  console.log("workouts", workouts);
-  let currentFilteredWorkouts = [...workouts];
-
-
+  // Filter workouts based on the selected toggles
   const workoutsWithImages = currentFilteredWorkouts.filter(workout => workout.images && workout.images.length > 0);
   const workoutsWithEquipment = currentFilteredWorkouts.filter(workout => 
-   workout.equipment && workout.equipment.some((/** @type {{ name: string; }} */ equip) => equip.name.toLowerCase() !== "none (bodyweight exercise)")
+    workout.equipment && workout.equipment.some((equip) => equip.name.toLowerCase() !== "none (bodyweight exercise)")
   );
   const workoutsWithoutEquipment = currentFilteredWorkouts.filter(workout => 
-    !workout.equipment || workout.equipment.every((/** @type {{ name: string; }} */ equip) => equip.name.toLowerCase() === "none (bodyweight exercise)")
+    !workout.equipment || workout.equipment.every((equip) => equip.name.toLowerCase() === "none (bodyweight exercise)")
   );
   const workoutsWithDescription = currentFilteredWorkouts.filter(workout => workout.description && workout.description.trim().length > 0);
 
-
+  // Apply the selected toggles to filter the workouts
   if (selectedToggles.includes("images")) {
     currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithImages.includes(workout));
   }
@@ -395,16 +390,24 @@ let toggleGroups = [
     currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithoutEquipment.includes(workout));
   }
   if (selectedToggles.includes("description")) {
-   currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithDescription.includes(workout));
- }
+    currentFilteredWorkouts = currentFilteredWorkouts.filter(workout => workoutsWithDescription.includes(workout));
+  }
 
+  // Sort the workouts: those with images should come first
+  currentFilteredWorkouts.sort((a, b) => {
+    const aHasImage = a.images && a.images.length > 0;
+    const bHasImage = b.images && b.images.length > 0;
+    return bHasImage - aHasImage; // Sort in descending order: workouts with images first
+  });
 
-  console.log('Filtered workouts after applying toggles:', currentFilteredWorkouts);
+  // Update filteredWorkouts to be used in the rendering
   filteredWorkouts = [...currentFilteredWorkouts];
-
-
-  return currentFilteredWorkouts;
+  
+  return filteredWorkouts;
 }
+
+
+
 
 
 let workoutCount = 0;
@@ -500,27 +503,29 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
     {/if}
     {/each}
   </svg>
-  <div class = "workout-container">
-    
- 
- 
-    {#each sortedMatchCounts as count}
-  <h2 style="text-align: center;"> Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
-  <div class= "groupedByWorkoutCount">
-    {#each filterByMatchCount(count) as workout (workout.id)}
-      <WorkoutCard
-        workoutId = {workout.id}
-        workoutName={workout.name}
-        imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
-        workoutDescription={workout.description}
-        compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
-        isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}
-        musclesUsed={[...workout.muscles, ...workout.muscles_secondary]}
-      />
-    {/each}
-  </div>
-{/each}
-  </div>
+  <div class="workout-container">
+    {#if filteredWorkouts.length > 0}
+        {#each sortedMatchCounts as count}
+            <h2 style="text-align: center;">Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
+            <div class="groupedByWorkoutCount">
+                {#each filteredWorkouts.filter(workout => workout.matchCount === count) as workout (workout.id)}
+                    <WorkoutCard
+                        workoutId={workout.id}
+                        workoutName={workout.name}
+                        imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
+                        workoutDescription={workout.description}
+                        compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
+                        isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}
+                        musclesUsed={[...workout.muscles, ...workout.muscles_secondary]}
+                    />
+                {/each}
+            </div>
+        {/each}
+    {:else}
+        <p>No workouts match the selected criteria</p>
+    {/if}
+</div>
+
   
 </div>
  
