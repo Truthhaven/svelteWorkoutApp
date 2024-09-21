@@ -505,26 +505,30 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
   </svg>
   <div class="workout-container">
     {#if filteredWorkouts.length > 0}
-        {#each sortedMatchCounts as count}
-            <h2 style="text-align: center;">Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
-            <div class="groupedByWorkoutCount">
-                {#each filteredWorkouts.filter(workout => workout.matchCount === count) as workout (workout.id)}
-                    <WorkoutCard
-                        workoutId={workout.id}
-                        workoutName={workout.name}
-                        imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
-                        workoutDescription={workout.description}
-                        compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
-                        isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}
-                        musclesUsed={[...workout.muscles, ...workout.muscles_secondary]}
-                    />
-                {/each}
-            </div>
-        {/each}
+      {#each sortedMatchCounts as count}
+        {#if filteredWorkouts.filter(workout => workout.matchCount === count).length > 0}
+          <h2 style="text-align: center;">Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
+          <div class="groupedByWorkoutCount">
+            {#each filteredWorkouts.filter(workout => workout.matchCount === count) as workout (workout.id)}
+              <WorkoutCard
+                workoutId={workout.id}
+                workoutName={workout.name}
+                imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
+                workoutDescription={workout.description}
+                compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
+                isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}
+                musclesUsed={[...workout.muscles, ...workout.muscles_secondary]}
+              />
+            {/each}
+          </div>
+        {/if}
+      {/each}
     {:else}
-        <p>No workouts match the selected criteria</p>
+      <p>No workouts match the selected criteria</p>
     {/if}
-</div>
+  </div>
+  
+
 
   
 </div>
