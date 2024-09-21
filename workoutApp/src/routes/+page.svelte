@@ -301,9 +301,11 @@ function getSelectedBodyParts() {
     return bHasImage - aHasImage;
   });
 
-  
+ 
   // Return the sorted workouts
-  return matchCountWorkouts;
+  return applyFilters(matchCountWorkouts);
+  
+
 }
 
 
@@ -343,6 +345,7 @@ let toggleGroups = [
       items: group.items.map(toggle => {
         if (toggle.id === id) {
           const newSelectionState = !toggle.isSelected;
+          console.log()
 
           if (newSelectionState) {
             
@@ -363,8 +366,13 @@ let toggleGroups = [
   }
 
  
-  function applyFilters() {
-  let currentFilteredWorkouts = [...filteredWorkouts];
+  
+  /**
+   * @param {any} [workouts]
+   */
+  function applyFilters(workouts = filteredWorkouts) {
+  console.log("workouts", workouts);
+  let currentFilteredWorkouts = [...workouts];
 
 
   const workoutsWithImages = currentFilteredWorkouts.filter(workout => workout.images && workout.images.length > 0);
