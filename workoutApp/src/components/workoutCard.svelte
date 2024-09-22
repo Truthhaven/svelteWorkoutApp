@@ -110,104 +110,106 @@ onDestroy(() => unsubscribe());
     >
   {/if}
 </div>
-
 <style>
-  .workoutHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .workoutCard {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 126px;
-    height: 277px;
-  }
+.workoutHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .workoutCard:hover {
-    transform: scale(1.1);
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
-  }
+.workoutCard {
+  background-color: #f0f0f0;
+  border: 0.0625rem solid #ccc; 
+  padding: 0.625rem; 
+  border-radius: 0.3125rem; 
+  text-align: center;
+  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1); 
+  width: 7.875rem; 
+  height: 17.3125rem; 
+}
 
-  .workoutCard img {
-    width: 100px;
-    height: 100px;
-  }
+.workoutCard:hover {
+  transform: scale(1.1);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5); 
+}
 
-  .workoutName {
-    margin-top: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-  }
+.workoutCard img {
+  width: 6.25rem; 
+  height: 6.25rem;
+}
 
-  .view-workout-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    text-align: center;
-    font-size: 14px;
-    text-decoration: none;
-    border-radius: 0 0 8px 8px;
-    transform: translateY(50%);
-    transition: transform 0.3s ease-in-out;
-    opacity: 0;
-  }
+.workoutName {
+  margin-top: 0.625rem; 
+  font-size: 1rem; 
+  font-weight: bold;
+  text-align: center;
+}
 
-  .workoutCard:hover .view-workout-btn {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.view-workout-btn {
+  width: 100%;
+  padding: 0.625rem;
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  font-size: 0.875rem; 
+  text-decoration: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  transform: translateY(50%);
+  transition: transform 0.3s ease-in-out;
+  opacity: 0;
+}
 
-  .addWorkout {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    border-radius: 0 0 8px 8px;
-    transform: translateY(-50%);
-    transition: 0.3s ease-in-out;
-    opacity: 0;
-  }
+.workoutCard:hover .view-workout-btn {
+  transform: translateY(0);
+  opacity: 1;
+}
 
-  .removeWorkout {
-    background-color: #cf2f07;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    border-radius: 0 0 8px 8px;
-    transform: translateY(-50%);
-    transition: 0.3s ease-in-out;
-    opacity: 0;
-  }
+.addWorkout {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 1.875rem; 
+  height: 1.875rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; 
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 0 0 0.5rem 0.5rem; 
+  transform: translateY(-50%);
+  transition: 0.3s ease-in-out;
+  opacity: 0;
+}
 
-  .workoutCard:hover .addWorkout {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  .workoutCard:hover .removeWorkout {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.removeWorkout {
+  background-color: #cf2f07;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 1.875rem; 
+  height: 1.875rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; 
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  transform: translateY(-50%);
+  transition: 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.workoutCard:hover .addWorkout {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.workoutCard:hover .removeWorkout {
+  transform: translateY(0);
+  opacity: 1;
+}
+
 </style>

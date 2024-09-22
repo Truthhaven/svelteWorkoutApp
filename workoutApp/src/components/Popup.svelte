@@ -12,54 +12,53 @@
       </div>
     </div>
   {/if}
-  
+
   <style>
-    .pop-up-message {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); 
-      display: flex; 
-      justify-content: center;
-      align-items: center;
-      z-index: 10000; 
-    }
+  .pop-up-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
   
-    .pop-up-content {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      max-width: 600px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      position: relative; 
-    }
+  .pop-up-content {
+    background-color: #fff;
+    padding: 1.25rem; 
+    border-radius: 0.625rem;
+    text-align: center;
+    max-width: 37.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2); 
+    position: relative;
+  }
   
-    #closePopUpBtn {
-      background-color: #f39c12;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      position: absolute; 
-      top: 10px; 
-      right: 10px; 
-    }
+  #closePopUpBtn {
+    background-color: #f39c12;
+    color: #fff;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    position: absolute;
+    top: 0.625rem; 
+    right: 0.625rem; 
+  }
   
-    #closePopUpBtn:hover {
-      background-color: #e67e22;
-    }
+  #closePopUpBtn:hover {
+    background-color: #e67e22;
+  }
   
-    .pop-up-content h2 {
-      margin-top: 0;
-    }
+  .pop-up-content h2 {
+    margin-top: 0;
+  }
   
-    .pop-up-content p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
-  </style>
-  
+  .pop-up-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1.25rem; 
+  }
+</style>

@@ -12,18 +12,27 @@
   /**
    * @type {any[]}
    */
+
    export let muscles; 
   let showPopup = false;
-
+  /**
+   * @type {string}
+   */
+  let noMatchMessage;
   onMount(() => {
+
     const hasSeenPopup = localStorage.getItem('hasSeenPopup');
 
     if (!hasSeenPopup) {
       showPopup = true;
       localStorage.setItem('hasSeenPopup', 'true');
     }
+
+    noMatchMessage = "Please select a muscle you want to grow";
+     
   });
 
+  
   function closePopup() {
     showPopup = false;
   }
@@ -413,6 +422,16 @@ let toggleGroups = [
 
   // Update filteredWorkouts to be used in the rendering
   filteredWorkouts = [...currentFilteredWorkouts];
+
+  // Update the noMatchMessage based on muscles and filteredWorkouts
+  if (muscles.every(muscle => !muscle.isSelected)) {
+      noMatchMessage = "Please select a muscle you want to grow";
+    } else if (filteredWorkouts.length === 0) {
+      noMatchMessage = "No workouts match the selected criteria";
+    } else {
+      noMatchMessage = "";
+    }
+  
   
   return filteredWorkouts;
 }
@@ -542,7 +561,7 @@ function formatWorkoutName(name) {
       {/each}
     {:else }
     <div class="no-selection-message"> 
-      <p>No workouts match the selected criteria</p>
+      <p>{noMatchMessage}</p>
     </div>
      
     {/if}
@@ -556,22 +575,20 @@ function formatWorkoutName(name) {
 
 
 
-
-
-  
 <style>
+
 .no-selection-message {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
+  max-width: 25rem; 
+  padding: 1.25rem; 
   background-color: #f8f8f8;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 0.125rem solid #ddd; 
+  border-radius: 0.625rem; 
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1); 
   text-align: center;
   font-size: 2rem;
   color: #555;
@@ -587,29 +604,28 @@ function formatWorkoutName(name) {
 .no-selection-message::before {
   content: '⚠️';
   font-size: 4rem;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem; 
   color: #f39c12;
 }
 
 .groupedByWorkoutCount{
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  gap: 10px;
-  padding: 20px;
-  width: 50%; 
+  gap: 0.625rem; 
+  padding: 1.25rem; 
+  width: 50%;
 }
 header {
     background-color: #333;
     color: white;
-    padding: 10px 0;
-    margin:10px;
-  }
+    padding: 0.625rem 0; 
+    margin: 0.625rem; 
+}
 
 .headerTitle{
   font-weight: bold; 
   text-align: center;
 }
-
 
 .selection-container {
   display: flex;
@@ -618,52 +634,48 @@ header {
 
 .info-button {
   display: inline-block;
-  margin-left: 5px;
+  margin-left: 0.3125rem; 
   position: relative;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #007BFF;
   cursor: pointer;
   border-radius: 50%;
-  width: 18px;
-  height: 18px;
+  width: 1.125rem; 
+  height: 1.125rem; 
   text-align: center;
-  line-height: 18px;
+  line-height: 1.125rem; 
   background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  border: 0.0625rem solid #ccc; 
 }
-
 
 .tooltip-text {
   visibility: hidden;
-  width: 250px;
+  width: 15.625rem; 
   background-color: #333;
   color: #fff;
   text-align: center;
-  border-radius: 5px;
-  padding: 10px; 
+  border-radius: 0.3125rem; 
+  padding: 0.625rem; 
   position: absolute;
   z-index: 1;
   bottom: 125%; 
   left: 50%;
-  margin-left: -125px;
+  margin-left: -7.8125rem;
   opacity: 0;
   transition: opacity 0.3s;
-  font-size: 16px; 
+  font-size: 1rem; 
 }
-
-
 
 .tooltip-text::after {
   content: "";
   position: absolute;
   top: 100%; 
   left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
+  margin-left: -0.3125rem; 
+  border-width: 0.3125rem; 
   border-style: solid;
   border-color: #333 transparent transparent transparent;
 }
-
 
 .info-button:hover .tooltip-text {
   visibility: visible;
@@ -671,7 +683,7 @@ header {
 }
 
 .toggle-item {
-  margin-bottom: 15px;
+  margin-bottom: 0.9375rem; 
   text-align: left;
 }
 
@@ -679,14 +691,12 @@ header {
   display:none;
 }
 
-
-
 .toggle-label {
   display: inline-block;
-  width: 60px;
-  height: 30px;
+  width: 3.75rem; 
+  height: 1.875rem; 
   background-color: #ccc;
-  border-radius: 30px;
+  border-radius: 1.875rem;
   position: relative;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -694,13 +704,13 @@ header {
 
 .toggle-label::after {
   content: '';
-  width: 26px;
-  height: 26px;
+  width: 1.625rem; 
+  height: 1.625rem; 
   background-color: white;
   border-radius: 50%;
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 0.125rem; 
+  left: 0.125rem; 
   transition: transform 0.3s;
 }
 
@@ -709,7 +719,6 @@ header {
 }
 
 .toggle-switch:checked + .toggle-label::after {
-  transform: translateX(30px);
+  transform: translateX(1.875rem); 
 }
-
 </style>

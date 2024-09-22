@@ -31,37 +31,34 @@
       </div>
     {/if}
   </div>
+  <style> 
+  .queueContainer {
+    position: relative;
+    display: inline-block;
+  }
   
-  <style>
-    .queueContainer {
-      position: relative;
-      display: inline-block;
-    }
-  
-    .workoutQueueImg {
+  .workoutQueueImg {
     position: fixed;
-    top: 110px;
-    right: 20px;
-    max-width: 100px; 
+    top: 6.875rem; 
+    right: 1.25rem;
+    max-width: 6.25rem;
     height: auto;
-    margin: 10px;
-    
-    }
+    margin: 0.625rem; 
+  }
   
-    .notificationDot {
+  .notificationDot {
     position: fixed;
-    top: 140px;
-    right: 20px;
-    width: 20px; 
-    height: 20px;
+    top: 8.75rem; 
+    right: 1.25rem; 
+    width: 1.25rem; 
+    height: 1.25rem; 
     background-color: red;
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px; 
-    transform: translate(50%, -50%);  
-    }
-  </style>
-  
+    font-size: 0.75rem; 
+    transform: translate(50%, -50%);
+  }
+</style>

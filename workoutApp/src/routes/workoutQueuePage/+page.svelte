@@ -96,25 +96,60 @@ function handleMouseEnter() {
 
 <WorkoutQueueIcon></WorkoutQueueIcon>
 <div class="workouts">
-  {#each $workoutQueueStore as workout (workout.id)}
-    <WorkoutCard
-      workoutId = {workout.id}
-      minimal={false}
-      workoutName={workout.name}
-      imgSrc={workout.imgSrc}
-      workoutDescription={workout.workoutDescription}
-      compound={workout.compound}
-      isolation={workout.isolation}
-      musclesUsed=""
-    />
-  {/each}
+  {#if $workoutQueueStore.length > 0}
+    {#each $workoutQueueStore as workout (workout.id)}
+      <WorkoutCard
+        workoutId={workout.id}
+        minimal={false}
+        workoutName={workout.name}
+        imgSrc={workout.imgSrc}
+        workoutDescription={workout.workoutDescription}
+        compound={workout.compound}
+        isolation={workout.isolation}
+        musclesUsed=""
+      />
+    {/each}
+  {:else}
+    <p class="emptyQueue">No workouts in queue</p>
+  {/if}
 </div>
+
 </div>
 
 
 
 
 <style>
+  .emptyQueue {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 25rem; 
+  padding: 1.25rem; 
+  background-color: #f8f8f8;
+  border: 0.125rem solid #ddd; 
+  border-radius: 0.625rem; 
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1); 
+  text-align: center;
+  font-size: 2rem;
+  color: #555;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.emptyQueue::before {
+  content: '⚠️';
+  font-size: 4rem;
+  margin-bottom: 0.625rem; 
+  color: #f39c12;
+}
 .container{
 display: flex;
 flex-direction: row;
