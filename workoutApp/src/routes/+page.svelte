@@ -234,19 +234,30 @@ muscles = [
     }
 
  
-    /**
-   * @param {string} muscleName
-   */
-   function toggleMuscleSelection(muscleName) {
-    muscles = muscles.map(muscle =>
-        muscle.id === muscleName
-            ? { ...muscle, isSelected: !muscle.isSelected }
-            : muscle
-    );
-    musclesStore.set(muscles);
-    getSelectedBodyParts();  // Update selected body parts and efficientWorkouts
-    applyFilters();  // Apply filters after updating efficientWorkouts
+  /**
+ * @param {string} muscleName
+ */
+function toggleMuscleSelection(muscleName) {
+  const isBack = muscleName.includes("(back)");
+  
+  // Determine the corresponding front/back muscle name
+  const linkedMuscleName = isBack
+    ? muscleName.replace(" (back)", "")
+    : `${muscleName} (back)`;
+
+  muscles = muscles.map(muscle => {
+    // Toggle the selected muscle and its linked counterpart
+    if (muscle.id === muscleName || muscle.id === linkedMuscleName) {
+      return { ...muscle, isSelected: !muscle.isSelected };
+    }
+    return muscle;
+  });
+
+  musclesStore.set(muscles);
+  getSelectedBodyParts();  // Update selected body parts and efficientWorkouts
+  applyFilters();  // Apply filters after updating efficientWorkouts
 }
+
 
 /**
  * @type {any[]}
@@ -372,10 +383,10 @@ let toggleGroups = [
   // Filter workouts based on the selected toggles
   const workoutsWithImages = currentFilteredWorkouts.filter(workout => workout.images && workout.images.length > 0);
   const workoutsWithEquipment = currentFilteredWorkouts.filter(workout => 
-    workout.equipment && workout.equipment.some((equip) => equip.name.toLowerCase() !== "none (bodyweight exercise)")
+    workout.equipment && workout.equipment.some((/** @type {{ name: string; }} */ equip) => equip.name.toLowerCase() !== "none (bodyweight exercise)")
   );
   const workoutsWithoutEquipment = currentFilteredWorkouts.filter(workout => 
-    !workout.equipment || workout.equipment.every((equip) => equip.name.toLowerCase() === "none (bodyweight exercise)")
+    !workout.equipment || workout.equipment.every((/** @type {{ name: string; }} */ equip) => equip.name.toLowerCase() === "none (bodyweight exercise)")
   );
   const workoutsWithDescription = currentFilteredWorkouts.filter(workout => workout.description && workout.description.trim().length > 0);
 
@@ -419,7 +430,12 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
 
 
 
-
+  /**
+   * @param {string} name
+   */
+function formatWorkoutName(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  }
 
 
 </script>
@@ -447,7 +463,7 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
         {/if}
       </span>
     </h2>
-    {#each muscles as muscle (muscle.id)}
+    {#each muscles.filter(muscle => muscle.id !== "Calves (back)" && muscle.id !== "Trapezius (back)") as muscle (muscle.id)}
     <div class="toggle-item">
         <label for={muscle.id} class="muscle-label">{muscle.id}</label>
         <input
@@ -459,7 +475,8 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
         />
         <label for={muscle.id} class="toggle-label"></label>
     </div>
-    {/each}
+{/each}
+
         
     <div>
       {#each toggleGroups as group}
@@ -512,7 +529,7 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
             {#each filteredWorkouts.filter(workout => workout.matchCount === count) as workout (workout.id)}
               <WorkoutCard
                 workoutId={workout.id}
-                workoutName={workout.name}
+                workoutName={formatWorkoutName(workout.name)} 
                 imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
                 workoutDescription={workout.description}
                 compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
@@ -523,8 +540,11 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
           </div>
         {/if}
       {/each}
-    {:else}
+    {:else }
+    <div class="no-selection-message"> 
       <p>No workouts match the selected criteria</p>
+    </div>
+     
     {/if}
   </div>
   
@@ -540,6 +560,36 @@ const unsubscribe = workoutQueueStore.subscribe(value => {
 
   
 <style>
+.no-selection-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 2rem;
+  color: #555;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.no-selection-message::before {
+  content: '⚠️';
+  font-size: 4rem;
+  margin-bottom: 10px;
+  color: #f39c12;
+}
 
 .groupedByWorkoutCount{
   display: grid;
