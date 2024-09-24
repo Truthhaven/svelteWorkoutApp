@@ -6,7 +6,7 @@
   import workoutQueueStore from '../stores/workoutQueueStore';
   import WorkoutQueueIcon from '../components/workoutQueueIcon.svelte';
   import {musclesStore} from '../stores/muscles.js';
-
+ 
 
 
   /**
@@ -313,7 +313,7 @@ function getSelectedBodyParts() {
    * @param {any} matchCount
    */
 function filterByMatchCount(matchCount) {
-  const workoutsArray = [...filteredWorkouts];  // Use filteredWorkouts
+  const workoutsArray = [...filteredWorkouts];  
 
   // Filter workouts based on the match count
   let matchCountWorkouts = workoutsArray.filter(workout => workout.matchCount === matchCount);
@@ -456,7 +456,11 @@ function formatWorkoutName(name) {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
 
+  let filtersSectionOpen = false; 
 
+function toggleFiltersSection() {
+  filtersSectionOpen = !filtersSectionOpen;
+}
 </script>
 
 
@@ -472,9 +476,9 @@ function formatWorkoutName(name) {
   <WorkoutQueueIcon />
 </header>
 
-<div class = "selection-container"> 
-  <div class = "toggleOptions">
-    <h2 class="toggle-title" >Muscles
+<div class="selection-container"> 
+  <div class="muscles-section">
+    <h2 class="toggle-title">Muscles
       <span class="info-button" on:mouseenter={() => showTooltip = true} on:mouseleave={() => showTooltip = false}>
         i
         {#if showTooltip}
@@ -482,26 +486,41 @@ function formatWorkoutName(name) {
         {/if}
       </span>
     </h2>
+    
     {#each muscles.filter(muscle => muscle.id !== "Calves (back)" && muscle.id !== "Trapezius (back)") as muscle (muscle.id)}
-    <div class="toggle-item">
-        <label for={muscle.id} class="muscle-label">{muscle.id}</label>
+      <div class="toggle-item">
+        <label for={muscle.id} class="filter-label">{muscle.id}</label>
         <input
-            type="checkbox"
-            id={muscle.id}
-            class="toggle-switch"
-            checked={isMuscleSelected(muscle.id)}
-            on:change={() => toggleMuscleSelection(muscle.id)}
+          type="checkbox"
+          id={muscle.id}
+          class="toggle-switch"
+          checked={isMuscleSelected(muscle.id)}
+          on:change={() => toggleMuscleSelection(muscle.id)}
         />
         <label for={muscle.id} class="toggle-label"></label>
-    </div>
-{/each}
+      </div>
+    {/each}
 
+    <div class="section-divider"></div>
+
+    <!-- Collapsible Filters Section -->
+    <div class="filters-section">
+      <h2 class="toggle-title">
+        <div class="filter-text-and-button">
+          Filters 
+        <button class="toggle-button" on:click={toggleFiltersSection}>
+          {filtersSectionOpen ? '-' : '+'}
+        </button>
+        </div>
         
-    <div>
+      </h2>
+      
+      {#if filtersSectionOpen} <!-- Show only if open -->
       {#each toggleGroups as group}
         <h2 class="toggle-title">{group.title}</h2>
         {#each group.items as toggle}
           <div class="toggle-item">
+            <label class="filter-label">{toggle.label}</label> 
             <input
               type="checkbox"
               id={toggle.id}
@@ -511,14 +530,15 @@ function formatWorkoutName(name) {
             />
             <label for={toggle.id} class="toggle-label">
             </label>
-            {toggle.label}
+            
           </div>
         {/each}
       {/each}
+      {/if}
     </div>
-    
-    
-     </div>
+  </div>
+
+
 
 <svg id = "frontView" width="330" height="499" viewBox="0 0 330 499" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="330" height="499" fill="white"/>
@@ -567,10 +587,10 @@ function formatWorkoutName(name) {
     {/if}
   </div>
   
-
+</div>
 
   
-</div>
+
  
 
 
@@ -683,8 +703,17 @@ header {
 }
 
 .toggle-item {
-  margin-bottom: 0.9375rem; 
-  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin: 5px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.toggle-item:last-child {
+  border-bottom: none; 
 }
 
 .toggle-switch {
@@ -701,6 +730,10 @@ header {
   cursor: pointer;
   transition: background-color 0.3s;
 }
+.toggle-label:hover {
+  background-color: #ddd;
+}
+
 
 .toggle-label::after {
   content: '';
@@ -721,4 +754,50 @@ header {
 .toggle-switch:checked + .toggle-label::after {
   transform: translateX(1.875rem); 
 }
+
+.filter-label{
+  flex-grow: 1;
+  margin-right: 20px;
+  font-size: xx-large;
+}
+
+
+.muscles-section {
+  margin-bottom: 30px;
+}
+
+
+.toggle-button {
+  background-color: hsl(0, 0%, 60%); 
+  color: hsl(50, 100%, 50%);
+  border: 1px solid hsl(0, 0%, 70%);  
+  border-radius: 50%; 
+  width: 30px;  
+  height: 30px;
+  font-size: 1.2rem;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.toggle-button:hover {
+  background-color: hsl(0, 0%, 55%);
+}
+
+.filter-text-and-button{
+  display:flex;
+  flex-direction: row;
+  gap: 10px;
+  
+}
+
+.toggle-title{
+  font-size: 3.5rem;  
+    font-weight: bold;
+}
+
+
 </style>
