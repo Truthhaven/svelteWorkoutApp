@@ -3,16 +3,17 @@
   import WorkoutCard from '../../components/workoutCard.svelte';
   import workoutQueueStore from '../../stores/workoutQueueStore';
   import {musclesStore} from '../../stores/muscles.js';
-  import { get } from 'svelte/store'; 
 
 
- let workoutQueueLength = 0;
+// Tracks length of workout queue
+let workoutQueueLength = 0;
 
-
+// updates workoutQueueLength whenever the workoutQueueStore changes
 $: workoutQueueLength = $workoutQueueStore.length;
 
 
  /**
+  * Checks if muscle is used is any of the workouts in the workout queue
    * @param {{ id: any; }} muscle
    */
  function isMuscleUsed(muscle) {
@@ -96,7 +97,7 @@ $: workoutQueueLength = $workoutQueueStore.length;
 
 
 <style>
-  .emptyQueue {
+.emptyQueue {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -138,7 +139,7 @@ padding: 20px;
 width: 50%; 
 }
 
-  header {
+header {
   background-color: #333;
   color: white;
   padding: 10px 0;
@@ -148,7 +149,6 @@ width: 50%;
 h2 {
   text-align: center;
 }
-
 
 
 </style>
