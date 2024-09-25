@@ -140,7 +140,7 @@ onDestroy(() => unsubscribe());
 
 .workoutName {
   margin-top: 0.625rem; 
-  font-size: 1rem; 
+  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
 }
@@ -148,25 +148,28 @@ onDestroy(() => unsubscribe());
 .view-workout-btn {
   width: 100%;
   padding: 0.625rem;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #636363; 
+  color: #EEEEEE;  
   text-align: center;
   font-size: 0.875rem; 
   text-decoration: none;
   border-radius: 0 0 0.5rem 0.5rem;
   transform: translateY(50%);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, 0.3s ease;
   opacity: 0;
 }
 
+.view-workout-btn:hover {
+  background-color: #555555; 
+}
 .workoutCard:hover .view-workout-btn {
   transform: translateY(0);
   opacity: 1;
 }
 
 .addWorkout {
-  background-color: #28a745;
-  color: #fff;
+  background-color: #636363;  
+  color: #EEEEEE;  
   border: none;
   border-radius: 50%;
   width: 1.875rem; 
@@ -177,15 +180,17 @@ onDestroy(() => unsubscribe());
   font-size: 1rem; 
   cursor: pointer;
   text-decoration: none;
-  border-radius: 0 0 0.5rem 0.5rem; 
-  transform: translateY(-50%);
-  transition: 0.3s ease-in-out;
+  transition:  0.3s ease-in-out;
   opacity: 0;
 }
 
+.addWorkout:hover {
+  background-color: #555555; 
+}
+
 .removeWorkout {
-  background-color: #cf2f07;
-  color: #fff;
+  background-color: #636363;  
+  color: #EEEEEE;  
   border: none;
   border-radius: 50%;
   width: 1.875rem; 
@@ -196,11 +201,14 @@ onDestroy(() => unsubscribe());
   font-size: 1rem; 
   cursor: pointer;
   text-decoration: none;
-  border-radius: 0 0 0.5rem 0.5rem;
-  transform: translateY(-50%);
-  transition: 0.3s ease-in-out;
+  transition:  0.3s ease-in-out;
   opacity: 0;
 }
+
+.removeWorkout:hover {
+  background-color: #555555;
+}
+
 
 .workoutCard:hover .addWorkout {
   transform: translateY(0);
