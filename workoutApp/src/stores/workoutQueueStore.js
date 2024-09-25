@@ -1,7 +1,8 @@
-import { writable, derived} from 'svelte/store';
+import { writable} from 'svelte/store';
 
-// Initial empty array of workouts
+
 /**
+ * Workouts array
  * @type {any[] | undefined}
  */
 
@@ -9,7 +10,7 @@ const WORKOUTS = [];
 
 const { subscribe, update } = writable(WORKOUTS);
 
-
+// Adds a new workout to the workouts array if it hasnt been included yet
 const addWorkout = (/** @type {{ id: number; musclesUsed: any; workoutDescription: any; imgSrc: any; name: string}} */ workout) =>
   update((workouts) => {
     if (!workouts.find(existingWorkout => existingWorkout.id === workout.id)) {
@@ -19,15 +20,10 @@ const addWorkout = (/** @type {{ id: number; musclesUsed: any; workoutDescriptio
     return workouts; 
   });
 
+// Removes a workout from the workout array
 const removeWorkout = (/** @type {number} */ workoutid) =>
   update((workouts) => [...(workouts.filter(workout => workout.id !== workoutid))]);
 
-  
-//export const workoutExists = (/** @type {any} */ workoutName) => derived(
- //WORKOUTS, 
-
-  //($workouts) => $workouts.some(workout => workout.name === workoutName) 
- //);
 
 
 export default {

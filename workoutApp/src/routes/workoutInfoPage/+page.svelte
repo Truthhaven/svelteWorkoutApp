@@ -3,8 +3,11 @@
 
     import { workoutStore } from '../../stores/workoutStore';
     import WorkoutQueueIcon from '../../components/workoutQueueIcon.svelte';
+  
+  // Stores the current workout details  
   let workout = { workoutName: '', imgSrc: '', workoutDescription: '' };
 
+  // Update workout 
   workoutStore.subscribe((/** @type {{ workoutName: string; imgSrc: string; workoutDescription: string; }} */ value) => {
     workout = value;
     console.log('Workout data:', workout); 
