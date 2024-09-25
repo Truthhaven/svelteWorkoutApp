@@ -653,6 +653,8 @@ header {
   flex-direction: row;    
 }
 
+
+
 .info-button {
   display: inline-block;
   margin-left: 0.3125rem; 
@@ -805,6 +807,5 @@ header {
   font-size: 2.0rem;  
     font-weight: bold;
 }
-
 
 </style>
