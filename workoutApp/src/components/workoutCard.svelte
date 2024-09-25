@@ -129,7 +129,6 @@ onDestroy(() => unsubscribe());
 }
 
 
-
 .workoutCard:hover {
   transform: scale(1.1);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5); 
