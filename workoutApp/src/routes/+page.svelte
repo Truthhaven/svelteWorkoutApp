@@ -499,7 +499,7 @@ function toggleFiltersSection() {
 
 <h2>
   Filters 
-  <button on:click={toggleFiltersSection}>
+  <button class = "filterButton" on:click={toggleFiltersSection}>
     {filtersSectionOpen ? '-' : '+'}
   </button>
 </h2>
@@ -550,8 +550,9 @@ function toggleFiltersSection() {
     {#if filteredWorkouts.length > 0}
       {#each sortedMatchCounts as count}
         {#if filteredWorkouts.filter(workout => workout.matchCount === count).length > 0}
-          <h2 style="text-align: center;">Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
-          
+          <div class = "workoutGroupContainer"> 
+        <h2 style="text-align: center;">Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
+            <div class = "workoutGroupInnerContainer">
             {#each filteredWorkouts.filter(workout => workout.matchCount === count) as workout (workout.id)}
               <WorkoutCard
                 workoutId={workout.id}
@@ -563,7 +564,8 @@ function toggleFiltersSection() {
                 musclesUsed={[...workout.muscles, ...workout.muscles_secondary]}
               />
             {/each}
-       
+          </div>
+          </div>
         {/if}
       {/each}
     {:else}
@@ -590,18 +592,18 @@ aside {
   max-width: 300px; 
 }
 
-.bodyContainer {
-  flex: 1;                      
+.bodyContainer {                    
   display: flex;
   justify-content: center;       
   align-items: center;           
   overflow-y: auto;             
-  max-width: 800px; 
+  width: 800px; 
+  flex-shrink: 0;
 }
 main {
   display: flex;               
   width: 100vw;                
-  height: 100vh;               
+  height: 100%;               
   gap: 0;                     
   overflow: hidden;             
 }
@@ -613,14 +615,7 @@ nav {
   overflow: visible;
 }
 
-.workoutContainer {
-  flex: 3;                      
-  display: flex;
-  flex-wrap: wrap;               
-  justify-content: flex-start;   
-  align-items: flex-start;       
-  width: 2000px; 
-}
+
 
 #frontView, #backView {
   width: 50%; 
@@ -629,25 +624,34 @@ nav {
 }
 .workoutContainer {
   flex: 2.5;        
-  max-width: none;   
-  margin-right: 16px; 
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start; 
-  height: 100vh;     
-  overflow-y: auto;  
+  width: 100%;  
+  height: 70%;     
   margin: 2%;
-  padding-bottom: 0;
+  max-width: 50%;
+  padding: 1rem;
 }
 .workoutGroupsWrapper {
-  overflow: auto;  
+  overflow-y: auto;  
   width: 100%;
   height: 100%;  
-  display: flex;               
-  flex-wrap: wrap;             
+  display: flex;                         
   justify-content: flex-start; 
+  flex-direction: column;
+  padding: 1rem;
+  scroll-padding-bottom: 2rem;
 }
 
+.workoutGroupContainer{
+width:100%;
+}
+
+.workoutGroupInnerContainer{
+  width:100%;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
 footer{
   display: block;
@@ -721,6 +725,7 @@ header {
 .info-button:hover {
   background-color: #555555;  
 }
+
 
 
 .tooltip-text {
