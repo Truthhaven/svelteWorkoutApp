@@ -61,9 +61,6 @@ $: workoutQueueLength = $workoutQueueStore.length;
     {#if muscle.isBack}
       <path d="{muscle.path}" fill="{workoutQueueLength > 0 && isMuscleUsed(muscle) ? 'green' : 'white'}"
       stroke= "black"  />
-      {#if muscle.worked}
-        <p>Worked muscle: {muscle.id}</p>
-      {/if}
     {/if}
   {/each}
   

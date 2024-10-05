@@ -576,7 +576,7 @@ function toggleFiltersSection() {
   </div> 
 </section>
 </main>
-<footer></footer>
+
 
 
 <style>
@@ -588,7 +588,7 @@ function toggleFiltersSection() {
 
 aside {
   flex: 1;                      
-  overflow: visible;        
+  overflow-y: auto;        
   max-width: 300px; 
 }
 
@@ -616,7 +616,6 @@ nav {
 }
 
 
-
 #frontView, #backView {
   width: 50%; 
   height: auto; 
@@ -642,7 +641,7 @@ nav {
 }
 
 .workoutGroupContainer{
-width:100%;
+  width:100%;
 }
 
 .workoutGroupInnerContainer{
@@ -653,12 +652,6 @@ width:100%;
   justify-content: center;
 }
 
-footer{
-  display: block;
-clear: both;
-text-align: center;
-padding: 25px;
-}
 
 .no-selection-message {
   position: absolute;
@@ -822,6 +815,18 @@ header {
 .toggle-title{
   font-size: 2.0rem;  
     font-weight: bold;
+}
+
+.filterButton{
+  color: #EEEEEE;  
+  cursor: pointer;
+  text-align: center;
+  background-color: #636363;  
+  border-radius: 50%;
+  border: 0.0625rem solid #31363F;  
+  width: 1.45rem; 
+  height: 1.45rem; 
+
 }
 
 </style>
