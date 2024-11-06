@@ -41,10 +41,10 @@
 
 .workoutQueueImg {
   position: fixed;
-  top: 12.5vh;
+  top: 9vh;
   right: 0.87vw;
   height: 10vh;
-  margin: 0.43vh;
+  margin:.43vh;
   width: 5vw;
   min-width: 3.26vw;
   min-height: 9.11vh;
@@ -52,7 +52,7 @@
 
 .notificationDot {
   position: fixed;
-  top: 13.5vh;
+  top: 12vh;
   right: .87vw;
   width: 1vw;
   height: 1vw;

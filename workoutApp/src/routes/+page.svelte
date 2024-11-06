@@ -1,4 +1,3 @@
-
 <script>
   import Popup from '../components/Popup.svelte';
   import { onMount } from 'svelte';
@@ -9,7 +8,7 @@
   import {musclesStore} from '../stores/muscles.js';
   import SearchBar from '../components/SearchBar.svelte';
   import Chatbot from '../components/Chatbot.svelte';
-  import HomeButton from '../components/HomeButton.svelte'
+  import Header from '../components/Header.svelte'
 
 
   /**
@@ -468,12 +467,8 @@ function toggleFiltersSection() {
   <Popup visible={showPopup} onClose={closePopup} />
 {/if}
 
-<header >
-  <h1 class="headerTitle" >Exercise App</h1>
-</header>
-<button class="button-home">
-  <a href="/" style="color: inherit; text-decoration: none;">Home</a>
-</button>
+<Header></Header>
+
 
 <nav>
   <SearchBar/>
@@ -647,7 +642,7 @@ nav {
 .workoutContainer {       
   width: 50vw;  
   height: 70%; 
-  margin-top:5vh;    
+  margin-top:10vh;  
 }
 .workoutGroupsWrapper {
   overflow-y: auto;  
@@ -708,6 +703,7 @@ nav {
 
 
 header {
+  position: relative;
     background-color: #333;
     color: white;
     height: 10vh;
@@ -718,6 +714,31 @@ header {
   font-weight: bold; 
   text-align: center;
   font-size: 2.57vw;
+}
+
+.button-home {
+  position: absolute; /* Positioned relative to the header */
+  top: 50%; /* Center vertically within the header */
+  left: 2vw; /* Adjust this to control horizontal position */
+  transform: translateY(-50%); /* Adjusts for vertical centering */
+  background-color: #b0b0b0;
+  color: #EEEEEE;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8vw 1.6vw;
+  font-size: 1.2vw;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+.button-home:hover {
+  background-color: #A0A0A0;
+}
+
+.button-home:active {
+  background-color: #909090;
 }
 
 .info-button {
@@ -877,11 +898,6 @@ transition: 0.3s ease;
     font-size:2vw;
   }
 
-  .button-home{
-    font-size: 1em;;
-    top: 20.5vh;
-    width: 5vw;
-    height: 5vh;
-  }
+ 
 
 </style>

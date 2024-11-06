@@ -130,7 +130,6 @@ onDestroy(() => unsubscribe());
 
 
 .workoutCard:hover {
-  transform: scale(1.1);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5); 
 }
 
@@ -219,6 +218,11 @@ onDestroy(() => unsubscribe());
 .workoutCard:hover .removeWorkout {
   transform: translateY(0);
   opacity: 1;
+}
+
+.view-workout-btn, .addWorkout, .removeWorkout {
+    position: relative;
+    z-index: 1;
 }
 
 </style>
