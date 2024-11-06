@@ -5,6 +5,7 @@
   import {musclesStore} from '../../stores/muscles.js';
   import SearchBar from '../../components/SearchBar.svelte';
   import Header from '../../components/Header.svelte'
+  import Chatbot from '../../components/Chatbot.svelte';
 
 
 // Tracks length of workout queue
@@ -66,6 +67,7 @@ $: workoutQueueLength = $workoutQueueStore.length;
 
 <WorkoutQueueIcon></WorkoutQueueIcon>
 <SearchBar></SearchBar>
+<Chatbot></Chatbot>
 <div class="workoutContainer">
   <div class ="workouts"> 
   {#if $workoutQueueStore.length > 0}

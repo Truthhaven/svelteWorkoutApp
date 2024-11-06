@@ -6,6 +6,7 @@
     import WorkoutQueueIcon from '../../components/workoutQueueIcon.svelte';
     import SearchBar from '../../components/SearchBar.svelte';
     import Header from '../../components/Header.svelte';
+    import Chatbot from '../../components/Chatbot.svelte';
   
   // Stores the current workout details  
   let workout = { workoutName: '', imgSrc: '', workoutDescription: '' };
@@ -23,7 +24,7 @@
 
 <WorkoutQueueIcon></WorkoutQueueIcon>
 <SearchBar></SearchBar>
-
+<Chatbot></Chatbot>
   <div class ="contentContainer"> </div>
   <div class="flex-container">
     <h1 style="font-weight: bold; text-align: center; font-size: 1.75vw" id= "workoutName"> {workout.workoutName}</h1>

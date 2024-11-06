@@ -63,8 +63,6 @@
             <div class="item-info">
               <img class="item-image" src={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://placehold.co/100X100?text=No+Workout+Image'} />
               <div class="item-title">{workout.name}</div>
-              
-              <!-- View Workout Button -->
               <button class="view-workout-btn" on:click={() => goToWorkoutPage(workout)}>View Workout</button>
             </div>
           </div>
@@ -74,9 +72,8 @@
         {#each suggestedItems as workout}
           <div class="dropdown-item">
             <div class="item-info">
+              <img class="item-image" src={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://placehold.co/100X100?text=No+Workout+Image'} />
               <div class="item-title">{workout.name}</div>
-
-              <!-- View Workout Button -->
               <button class="view-workout-btn" on:click={() => goToWorkoutPage(workout)}>View Workout</button>
             </div>
           </div>
@@ -138,17 +135,19 @@ pointer-events: none;
 }
 
 .dropdown {
-position: absolute;
-top: 100%;
-left: 0;
-width: 100%;
-background-color: white;
-border: 0.14vw solid #ccc;
-border-radius: 1.14vw;
-box-shadow: 0px 0.57vh 1.14vh rgba(0, 0, 0, 0.1);
-overflow-y: auto;
-z-index: 99999;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 0.14vw solid #ccc;
+    border-radius: 1.14vw;
+    box-shadow: 0px 0.57vh 1.14vh rgba(0, 0, 0, 0.1);
+    max-height: 40vh; /* Set maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    z-index: 99999;
 }
+
 
 .dropdown-item {
 display: flex;
@@ -232,10 +231,9 @@ object-fit: cover;
 border-radius: 0.56vw;
 margin-right: 0.7vw;
 }
-
 .view-workout-btn {
-    background-color: #76ABAE;
-    color: #fff;
+    background-color: #ccc; /* Set to grey to match dropdown items */
+    color: #333;
     border: none;
     border-radius: 0.3rem;
     padding: 0.3rem 0.5rem;
@@ -248,9 +246,11 @@ margin-right: 0.7vw;
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease-in-out;
-  }
+    margin-left: 1vw;
+}
 
-  .view-workout-btn:hover {
-    background-color: #558A8E;
-  }
+.view-workout-btn:hover {
+    background-color: #b3b3b3; /* Darker grey for hover effect */
+}
+
 </style>
