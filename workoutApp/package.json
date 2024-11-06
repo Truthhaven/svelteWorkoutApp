@@ -23,6 +23,7 @@
 		"@fullcalendar/core": "^6.1.15",
 		"@fullcalendar/daygrid": "^6.1.15",
 		"@fullcalendar/interaction": "^6.1.15",
+		"@sveltejs/adapter-vercel": "^5.4.6",
 		"axios": "^1.7.7",
 		"fullcalendar": "^6.1.15",
 		"svelte-calendar": "^3.1.6"
