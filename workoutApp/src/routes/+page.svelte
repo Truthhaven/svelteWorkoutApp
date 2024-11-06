@@ -7,7 +7,8 @@
   import workoutQueueStore from '../stores/workoutQueueStore';
   import WorkoutQueueIcon from '../components/workoutQueueIcon.svelte';
   import {musclesStore} from '../stores/muscles.js';
- 
+  import SearchBar from '../components/SearchBar.svelte';
+  import Chatbot from '../components/Chatbot.svelte';
 
 
   /**
@@ -471,7 +472,9 @@ function toggleFiltersSection() {
 </header>
 
 <nav>
+  <SearchBar/>
   <WorkoutQueueIcon />
+  <Chatbot></Chatbot>
 </nav>
 
 <main>
@@ -533,15 +536,12 @@ function toggleFiltersSection() {
   {#each muscles as muscle (muscle.id)}
     {#if muscle.isFront}
     <path d="{muscle.path}" fill="{muscle.isSelected ? 'red' : 'white'}" stroke="black" on:click={() => toggleMuscleSelection(muscle.id)} class="muscle-path" />
-     <text 
-     x="50" y="30" 
-     font-family="Arial" 
-     font-size="16" 
-     fill="black" 
-     class="muscle-label">
-     {muscle.id}
-   </text>
-
+      <g class="muscle-label">
+        <rect x="50" y="-45" width="200" height="30" fill="white" stroke="black" rx="5" ry="5" />
+        <text x="155" y="-30" font-family="Arial" font-size="16" fill="black" text-anchor="middle" alignment-baseline="middle">
+          {muscle.id === 'Obliquus externus abdominis' ? 'Obliques' : muscle.id}
+        </text>
+      </g>
     {/if}
   {/each}
 </svg>
@@ -551,14 +551,12 @@ function toggleFiltersSection() {
   {#each muscles as muscle (muscle.id)}
     {#if muscle.isBack}
     <path d="{muscle.path}" fill="{muscle.isSelected ? 'red' : 'white'}" stroke="black" on:click={() => toggleMuscleSelection(muscle.id)} class="muscle-path" />
-      <text 
-     x="25" y="30" 
-     font-family="Arial" 
-     font-size="16" 
-     fill="black" 
-     class="muscle-label">
-     {muscle.id}
-   </text>
+      <g class="muscle-label">
+        <rect x="50" y="-45" width="200" height="30" fill="white" stroke="black" rx="5" ry="5" />
+        <text x="145" y="-30" font-family="Arial" font-size="16" fill="black" text-anchor="middle" alignment-baseline="middle">
+          {muscle.id}
+        </text>
+      </g>
       {/if}
   {/each}
 </svg>
@@ -576,7 +574,7 @@ function toggleFiltersSection() {
               <WorkoutCard
                 workoutId={workout.id}
                 workoutName={formatWorkoutName(workout.name)} 
-                imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://via.placeholder.com/100?text=No+Image'}
+                imgSrc={workout.images && workout.images.length > 0 ? workout.images[0].image : 'https://placehold.co/100X100?text=No+Workout+Image'}
                 workoutDescription={workout.description}
                 compound={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? false : true}
                 isolation={workout.muscles.length === 1 && workout.muscles_secondary.length <= 0 ? true : false}

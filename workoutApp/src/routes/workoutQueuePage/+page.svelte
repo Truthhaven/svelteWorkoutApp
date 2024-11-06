@@ -3,6 +3,7 @@
   import WorkoutCard from '../../components/workoutCard.svelte';
   import workoutQueueStore from '../../stores/workoutQueueStore';
   import {musclesStore} from '../../stores/muscles.js';
+  import SearchBar from '../../components/SearchBar.svelte';
 
 
 // Tracks length of workout queue
@@ -69,6 +70,7 @@ $: workoutQueueLength = $workoutQueueStore.length;
 
 
 <WorkoutQueueIcon></WorkoutQueueIcon>
+<SearchBar></SearchBar>
 <div class="workouts">
   {#if $workoutQueueStore.length > 0}
     {#each $workoutQueueStore as workout (workout.id)}
