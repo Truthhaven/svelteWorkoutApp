@@ -125,7 +125,7 @@ onDestroy(() => unsubscribe());
   text-align: center;
   box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1); 
   width: 7.875rem; 
-  height: 17.3125rem; 
+  height: 15.3125rem; 
 }
 
 
@@ -141,7 +141,7 @@ onDestroy(() => unsubscribe());
 
 .workoutName {
   margin-top: 0.625rem; 
-  font-size: 1.5rem;
+  font-size: 1.5vw;
   font-weight: bold;
   text-align: center;
 }

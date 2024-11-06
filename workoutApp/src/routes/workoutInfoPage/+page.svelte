@@ -3,6 +3,8 @@
 
     import { workoutStore } from '../../stores/workoutStore';
     import WorkoutQueueIcon from '../../components/workoutQueueIcon.svelte';
+    import SearchBar from '../../components/SearchBar.svelte';
+
   
   // Stores the current workout details  
   let workout = { workoutName: '', imgSrc: '', workoutDescription: '' };
@@ -15,15 +17,16 @@
     
 </script>
 
-
-<header class = "header"> 
-    <h1 style="font-weight: bold; text-align: center;"> Exercise App</h1>
-    <WorkoutQueueIcon></WorkoutQueueIcon>
+<header >
+  <h1 class="headerTitle" >Exercise App</h1>
 </header>
+
+<WorkoutQueueIcon></WorkoutQueueIcon>
+<SearchBar></SearchBar>
 
   <div class ="contentContainter"> </div>
   <div class ="workoutHeader"> 
-      <h1 style="font-weight: bold; text-align: center; font-size: 7em" id= "workoutName"> {workout.workoutName}</h1>
+      <h1 style="font-weight: bold; text-align: center; font-size: 1.75vw" id= "workoutName"> {workout.workoutName}</h1>
      
      
   </div>
@@ -36,7 +39,7 @@
 
   <style> 
   p {
-    font-size: 50px;
+    font-size: 1.5vw;
     margin-top: 3px;
     text-align: start;
     margin-bottom: 2px;
@@ -44,9 +47,15 @@
   header {
     background-color: #333;
     color: white;
-    padding: 10px 0;
-    margin:0px;
-  }
+    height: 10vh;
+    width:100vw;
+}
+
+.headerTitle{
+  font-weight: bold; 
+  text-align: center;
+  font-size: 2.57vw;
+}
    
 .flex-container {
     display: flex;
@@ -58,13 +67,13 @@
 
 .description {
     text-align: center; 
-    font-size: 3em;
+    font-size: 1.5vw;
     font-weight: bold; 
     margin-bottom: 1px;
 }
 
 #workoutImg {
-    width: 500px;
-    height: 500px;
+    width: 34vw;
+    height: 34vh;
   }
 </style>

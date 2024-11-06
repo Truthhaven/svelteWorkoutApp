@@ -32,33 +32,40 @@
     {/if}
   </div>
   <style> 
+
+
   .queueContainer {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .workoutQueueImg {
-    position: fixed;
-    top: 6.875rem; 
-    right: 1.25rem;
-    max-width: 6.25rem;
-    height: auto;
-    margin: 0.625rem; 
-  }
-  
-  .notificationDot {
-    position: fixed;
-    top: 8.75rem; 
-    right: 1.25rem; 
-    width: 1.25rem; 
-    height: 1.25rem; 
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem; 
-    transform: translate(50%, -50%);
-  }
+  position: relative;
+  display: inline-block;
+}
+
+.workoutQueueImg {
+  position: fixed;
+  top: 12.5vh;
+  right: 0.87vw;
+  height: 10vh;
+  margin: 0.43vh;
+  width: 5vw;
+  min-width: 3.26vw;
+  min-height: 9.11vh;
+}
+
+.notificationDot {
+  position: fixed;
+  top: 13.5vh;
+  right: .87vw;
+  width: 1vw;
+  height: 1vw;
+  min-width: 0.63vw;
+  min-height: 1vh;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1vw;
+  transform: translate(50%, -50%);
+}
+
 </style>

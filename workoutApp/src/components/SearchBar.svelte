@@ -27,6 +27,9 @@
       showDropdown = !showDropdown;
     }
   
+    /**
+   * @param {{ name: any; muscles?: never[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[]; muscles_secondary?: never[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[] | { id: number; name: string; name_en: string; is_front: boolean; image_url_main: string; image_url_secondary: string; }[]; description: any; images: any; }} workout
+   */
     function goToWorkoutPage(workout) {
       workoutStore.set({
         workoutName: workout.name,
@@ -79,103 +82,102 @@
   </div>
   
   <style>
-    .search-container {
-      position: fixed;
-      display: inline-flex;
-      align-items: center;
-      right: 10rem;
-      width: 80%; 
-      max-width: 400px; 
-      min-width: 200px; 
-      top: 9rem;
-    }
+  .search-container {
+    position: fixed;
+    display: inline-flex;
+    align-items: center;
+    right: 5.16vw;
+    width: 30vw; 
+    top: 13.5vh;
+    margin-top:1vh;
+    margin-bottom: 5vh;
+    margin-right: 1.5vw;
+  }
   
-    .search-input {
-      width: 100%;
-      padding-left: 2em; 
-      font-size: 1em;
-      border: 1px solid #ccc;
-      border-radius: 8px 0 0 8px;
-      box-sizing: border-box;
-      height: 2.5em; 
-    }
+  .search-input {
+    width: 100%;
+    padding-left: 2.78vw;
+    font-size: 1.7vw;
+    border: 0.14vw solid #ccc;
+    border-radius: 1.14vw 0 0 1.14vw;
+    box-sizing: border-box;
+    height: 5.48vh;
+  }
   
-    .dropdown-toggle {
-      padding: 0 10px;
-      font-size: 1em;
-      background-color: #ccc;
-      border: 1px solid #ccc;
-      border-left: none;
-      border-radius: 0 8px 8px 0;
-      cursor: pointer;
-      height: 2.5em;
-    }
+  .dropdown-toggle {
+    padding: 0 1.38vw;
+    font-size: 1.7vw;
+    background-color: #ccc;
+    border: 0.14vw solid #ccc;
+    border-left: none;
+    border-radius: 0 1.14vw 1.14vw 0;
+    cursor: pointer;
+    height: 5.48vh;
+  }
   
-    .search-input::placeholder {
-      color: #999;
-    }
+  .search-input::placeholder {
+    color: #999;
+  }
   
-    .search-container::before {
-      content: '🔍';
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #777;
-      font-size: 1em;
-      pointer-events: none;
-    }
+  .search-container::before {
+    content: '🔍';
+    position: absolute;
+    left: 1.06vw;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 1.7vw;
+    pointer-events: none;
+  }
   
-    .dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      background-color: white;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 1000;
-    }
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 0.14vw solid #ccc;
+    border-radius: 1.14vw;
+    box-shadow: 0px 0.57vh 1.14vh rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    z-index: 1000;
+  }
   
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      border-bottom: 1px solid #f0f0f0;
-      cursor: pointer;
-    }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 1.38vh;
+    border-bottom: 0.14vw solid #f0f0f0;
+    cursor: pointer;
+  }
   
-    .dropdown-item:hover {
-      background-color: #f5f5f5;
-    }
+  .dropdown-item:hover {
+    background-color: #f5f5f5;
+  }
   
-    .item-info {
-      display: flex;
-      flex-direction: row;
-      margin-left: 10px;
-    }
+  .item-info {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1.38vw;
+  }
   
-    .item-title {
-      font-size: 1rem;
-      font-weight: bold;
-      color: #333;
-    }
+  .item-title {
+    font-size: 1.4vw;
+    font-weight: bold;
+    color: #333;
+  }
   
-    .no-match, .no-results {
-      padding: 10px;
-      color: #666;
-      font-style: italic;
-    }
+  .no-match, .no-results {
+    padding: 1.38vh;
+    color: #666;
+    font-style: italic;
+  }
   
-    .item-image {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      border-radius: 4px;
-      margin-right: 0.5rem;
-    }
-  </style>
-  
+  .item-image {
+    width: 5.56vw;
+    height: 8.88vh;
+    object-fit: cover;
+    border-radius: 0.56vw;
+    margin-right: 0.7vw;
+  }
+</style>  

@@ -4,6 +4,7 @@
   import workoutQueueStore from '../../stores/workoutQueueStore';
   import {musclesStore} from '../../stores/muscles.js';
   import SearchBar from '../../components/SearchBar.svelte';
+  import HomeButton from '../../components/HomeButton.svelte';
 
 
 // Tracks length of workout queue
@@ -28,12 +29,13 @@ $: workoutQueueLength = $workoutQueueStore.length;
 </script>
 
 
-<header class = "header"> 
-  <h1 style="font-weight: bold; text-align: center;"> Exercise App</h1>
+<header >
+  <h1 class="headerTitle" >Exercise App</h1>
 </header>
 <h2> Workouts in Queue</h2>
 
 <div class ="container">
+  <div class="bodyContainer">
 <div>
   <h3 style = "text-align:center"> Current Muscles Worked </h3>
   <svg id = "frontView" width="330" height="499" viewBox="0 0 330 499" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,6 +68,7 @@ $: workoutQueueLength = $workoutQueueStore.length;
   {/each}
   
   </svg></div>
+</div>
 
 
 
@@ -96,10 +99,19 @@ $: workoutQueueLength = $workoutQueueStore.length;
 
 
 <style>
+
+.bodyContainer {                    
+  display: flex;
+  justify-content: center;       
+  align-items: center;           
+  overflow-y: auto;             
+  width: 30vw;
+  flex-shrink: 0;
+}
 .emptyQueue {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 75%;
   transform: translate(-50%, -50%);
   width: 100%;
   max-width: 25rem; 
@@ -126,23 +138,25 @@ $: workoutQueueLength = $workoutQueueStore.length;
   margin-bottom: 0.625rem; 
   color: #f39c12;
 }
-.container{
-display: flex;
-flex-direction: row;
-}
+
 .workouts{
-display: grid;
-grid-template-columns: repeat(9, 1fr);
-gap: 10px;
-padding: 20px;
-width: 50%; 
+  width:60vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 header {
-  background-color: #333;
-  color: white;
-  padding: 10px 0;
-  margin:10px;
+    background-color: #333;
+    color: white;
+    height: 10vh;
+    width:100vw;
+}
+
+.headerTitle{
+  font-weight: bold; 
+  text-align: center;
+  font-size: 2.57vw;
 }
 
 h2 {
