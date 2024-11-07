@@ -5,6 +5,7 @@
    */
   let messages = [];
   let userMessage = "";
+  let isLoading = false;
 
   // Toggle chat window visibility
   function toggleChat() {
@@ -15,18 +16,25 @@
   async function sendMessage() {
     if (!userMessage.trim()) return;
     messages = [...messages, { role: "user", content: userMessage }];
+    userMessage = "";
+    
+    // Show loading indicator
+    isLoading = true;
+
     const rawResponse = await fetch("/api/chat", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({data:{messages:messages.at(-1)}}),
+      body: JSON.stringify({ data: { messages: messages.at(-1) } }),
     });
+    
     let responseMessage = await rawResponse.json();
-    messages = [...messages, {role: "bot", content: responseMessage}];
+    messages = [...messages, { role: "bot", content: responseMessage }];
 
-    userMessage = "";
+    // Hide loading indicator
+    isLoading = false;
   }
 </script>
 
@@ -40,10 +48,14 @@
     <div class="chat-messages">
       {#each messages as message}
         <div class={message.role === "user" ? "user-message" : "bot-message"}>
-          <strong>{message.role === "user" ? "You" : "Bot"}:</strong>
-          {message.content}
+          <strong>{message.role === "user" ? "You" : "Bot"}:</strong> {message.content}
         </div>
       {/each}
+      {#if isLoading}
+        <div class="bot-message">
+          <strong>Bot:</strong> <span class="loading-dots">...</span>
+        </div>
+      {/if}
     </div>
     <div class="chat-input">
       <input
@@ -52,6 +64,7 @@
         placeholder="Type your message..."
         on:keydown={(e) => e.key === "Enter" && sendMessage()}
       />
+      <button on:click={sendMessage}>Send</button>
     </div>
   </div>
 {/if}
@@ -121,5 +134,19 @@
     border-radius: 5px;
     margin-left: 5px;
     cursor: pointer;
+  }
+
+  .loading-dots::after {
+    content: '...';
+    animation: dots 1s steps(5, end) infinite;
+  }
+
+  @keyframes dots {
+    0%, 20% {
+      color: transparent;
+    }
+    40% {
+      color: black;
+    }
   }
 </style>
