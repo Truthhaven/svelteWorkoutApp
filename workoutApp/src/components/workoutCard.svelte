@@ -118,6 +118,7 @@ onDestroy(() => unsubscribe());
 }
 
 .workoutCard {
+  position: relative;
   background-color: #f0f0f0;
   border: 0.0625rem solid #ccc; 
   padding: 0.625rem; 
@@ -166,7 +167,6 @@ onDestroy(() => unsubscribe());
   transform: translateY(0);
   opacity: 1;
 }
-
 .addWorkout {
   background-color: #636363;  
   color: #EEEEEE;  
