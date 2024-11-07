@@ -22,10 +22,10 @@ header {
 }
 
 .button-home {
-  position: absolute; /* Positioned relative to the header */
-  top: 50%; /* Center vertically within the header */
-  left: 2vw; /* Adjust this to control horizontal position */
-  transform: translateY(-50%); /* Adjusts for vertical centering */
+  position: absolute; 
+  top: 50%; 
+  left: 2vw; 
+  transform: translateY(-50%); 
   background-color: #b0b0b0;
   color: #EEEEEE;
   border: none;
