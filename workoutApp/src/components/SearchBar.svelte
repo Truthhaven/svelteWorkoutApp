@@ -117,7 +117,11 @@ border-left: none;
 border-radius: 0 1.14vw 1.14vw 0;
 cursor: pointer;
 height: 5.48vh;
+text-align: center;
 }
+
+
+
 
 .search-input::placeholder {
 color: #999;
@@ -143,8 +147,8 @@ pointer-events: none;
     border: 0.14vw solid #ccc;
     border-radius: 1.14vw;
     box-shadow: 0px 0.57vh 1.14vh rgba(0, 0, 0, 0.1);
-    max-height: 40vh; /* Set maximum height */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 40vh; 
+    overflow-y: auto; 
     z-index: 99999;
 }
 
@@ -173,55 +177,6 @@ font-size: 1.4vw;
 font-weight: bold;
 color: #333;
 margin-right: auto; /* Ensures title stays on the left */
-}
-
-.addWorkout {
-background-color: #ccc;
-color: #333;
-border: 0.14vw solid #f0f0f0;
-border-radius: 1.14vw;
-width: 2.5vw;
-height: 2.5vw;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 1vw;
-cursor: pointer;
-transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-box-shadow: 0px 0.57vh 1.14vh rgba(0, 0, 0, 0.1);
-}
-
-.addWorkout:hover {
-background-color: #f5f5f5;
-color: #333;
-transform: scale(1.1);
-}
-
-.removeWorkout {
-background-color: #ccc;
-color: #333;
-border: 0.14vw solid #f0f0f0;
-border-radius: 1.14vw;
-width: 2.5vw;
-height: 2.5vw;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 1vw;
-cursor: pointer;
-transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-box-shadow: 0px 0.57vh 1.14vh rgba(0, 0, 0, 0.1);
-}
-
-.removeWorkout:hover {
-background-color: #f5f5f5;
-color: #333;
-transform: scale(1.1);
-}
-.no-match, .no-results {
-padding: 1.38vh;
-color: #666;
-font-style: italic;
 }
 
 .item-image {

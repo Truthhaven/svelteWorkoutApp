@@ -479,12 +479,6 @@ function toggleFiltersSection() {
 <main>
 <aside>
 <h2 class="mucleText">Muscles
-  <span class="info-button" on:mouseenter={() => showTooltip = true} on:mouseleave={() => showTooltip = false}>
-    i
-    {#if showTooltip}
-      <span class="tooltip-text">Select a muscle from the menu below or select on the body outline</span>
-    {/if}
-  </span>
 </h2>
 
 {#each muscles.filter(muscle => muscle.id !== "Calves (back)" && muscle.id !== "Trapezius (back)") as muscle (muscle.id)}
@@ -699,104 +693,6 @@ nav {
   margin-bottom: 0.625rem; 
   color: #f39c12;
 }
-
-
-
-header {
-  position: relative;
-    background-color: #333;
-    color: white;
-    height: 10vh;
-    width:100vw;
-}
-
-.headerTitle{
-  font-weight: bold; 
-  text-align: center;
-  font-size: 2.57vw;
-}
-
-.button-home {
-  position: absolute; /* Positioned relative to the header */
-  top: 50%; /* Center vertically within the header */
-  left: 2vw; /* Adjust this to control horizontal position */
-  transform: translateY(-50%); /* Adjusts for vertical centering */
-  background-color: #b0b0b0;
-  color: #EEEEEE;
-  border: none;
-  border-radius: 8px;
-  padding: 0.8vw 1.6vw;
-  font-size: 1.2vw;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 1000;
-  transition: background-color 0.3s;
-}
-
-.button-home:hover {
-  background-color: #A0A0A0;
-}
-
-.button-home:active {
-  background-color: #909090;
-}
-
-.info-button {
-display: inline-block;
-margin-left: 0.35vw; 
-position: relative;
-font-size: 0.97vw;
-color: #EEEEEE;  
-cursor: pointer;
-border-radius: 50%;
-width: 1.25vw; 
-height: 1.25vw; 
-text-align: center;
-line-height: 1.25vw; 
-background-color: #636363;  
-border: 0.07vw solid #31363F;  
-transition: 0.3s ease;
-
-}
-
-.info-button:hover {
-  background-color: #555555;  
-}
-
-
-
-.tooltip-text {
-  position: absolute; 
-  z-index: 9999; 
-  background-color: #f9f9f9;
-  color: black;
-  padding: 8px;
-  border-radius: 5px;
-  top: 100%; 
-  left: 50%;
-  transform: translateX(-20%);
-  white-space: nowrap;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: visible; 
-}
-
-
-.tooltip-text::after {
-  content: '';
-  position: absolute;
-  top: 100%; 
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #222831; 
-}
-
-.info-button:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-
 .toggle-item {
   display: flex;
   align-items: center;
