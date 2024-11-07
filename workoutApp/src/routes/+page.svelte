@@ -601,7 +601,8 @@ function toggleFiltersSection() {
 aside {
   flex: 1;                      
   overflow-y: auto;        
-  width: 15vw; 
+  width: 15vw;
+  margin-left:1.5vw;
 }
 
 .bodyContainer {                    
