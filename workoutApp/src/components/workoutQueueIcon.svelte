@@ -24,7 +24,7 @@
   
   
   <div class="queueContainer">
-    <img class="workoutQueueImg" src="../src/queueImage.png" alt="dumbbell" on:click={goToWorkoutQueue}>
+    <img class="workoutQueueImg" src="/queueImage.png" alt="dumbbell" on:click={goToWorkoutQueue}>
     {#if workoutCount > 0}
       <div class="notificationDot">
         {workoutCount}
