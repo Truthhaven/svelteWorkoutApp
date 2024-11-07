@@ -1,4 +1,3 @@
-
 <script>
   import Popup from '../components/Popup.svelte';
   import { onMount } from 'svelte';
@@ -9,6 +8,7 @@
   import {musclesStore} from '../stores/muscles.js';
   import SearchBar from '../components/SearchBar.svelte';
   import Chatbot from '../components/Chatbot.svelte';
+  import Header from '../components/Header.svelte'
 
 
   /**
@@ -467,9 +467,8 @@ function toggleFiltersSection() {
   <Popup visible={showPopup} onClose={closePopup} />
 {/if}
 
-<header>
-  <h1 class="headerTitle">Exercise App</h1>
-</header>
+<Header></Header>
+
 
 <nav>
   <SearchBar/>
@@ -479,7 +478,7 @@ function toggleFiltersSection() {
 
 <main>
 <aside>
-<h2>Muscles
+<h2 class="mucleText">Muscles
   <span class="info-button" on:mouseenter={() => showTooltip = true} on:mouseleave={() => showTooltip = false}>
     i
     {#if showTooltip}
@@ -489,20 +488,22 @@ function toggleFiltersSection() {
 </h2>
 
 {#each muscles.filter(muscle => muscle.id !== "Calves (back)" && muscle.id !== "Trapezius (back)") as muscle (muscle.id)}
-      <div class="toggle-item">
-        <label for={muscle.id} class="filter-label">{muscle.id}</label>
-        <input
-          type="checkbox"
-          id={muscle.id}
-          class="toggle-switch"
-          checked={isMuscleSelected(muscle.id)}
-          on:change={() => toggleMuscleSelection(muscle.id)}
-        />
-        <label for={muscle.id} class="toggle-label"></label>
-      </div>
-    {/each}
+  <div class="toggle-item">
+    <label for={muscle.id} class="filter-label">
+      {muscle.id === 'Obliquus externus abdominis' ? 'Obliques' : muscle.id}
+    </label>
+    <input
+      type="checkbox"
+      id={muscle.id}
+      class="toggle-switch"
+      checked={isMuscleSelected(muscle.id)}
+      on:change={() => toggleMuscleSelection(muscle.id)}
+    />
+    <label for={muscle.id} class="toggle-label"></label>
+  </div>
+{/each}
 
-<h2>
+<h2 class="filter-container">
   Filters 
   <button class = "filterButton" on:click={toggleFiltersSection}>
     {filtersSectionOpen ? '-' : '+'}
@@ -538,7 +539,7 @@ function toggleFiltersSection() {
     <path d="{muscle.path}" fill="{muscle.isSelected ? 'red' : 'white'}" stroke="black" on:click={() => toggleMuscleSelection(muscle.id)} class="muscle-path" />
       <g class="muscle-label">
         <rect x="50" y="-45" width="200" height="30" fill="white" stroke="black" rx="5" ry="5" />
-        <text x="155" y="-30" font-family="Arial" font-size="16" fill="black" text-anchor="middle" alignment-baseline="middle">
+        <text x="155" y="-30" font-family="Arial" font-size= "1.5vw" fill="black" text-anchor="middle" alignment-baseline="middle">
           {muscle.id === 'Obliquus externus abdominis' ? 'Obliques' : muscle.id}
         </text>
       </g>
@@ -553,7 +554,7 @@ function toggleFiltersSection() {
     <path d="{muscle.path}" fill="{muscle.isSelected ? 'red' : 'white'}" stroke="black" on:click={() => toggleMuscleSelection(muscle.id)} class="muscle-path" />
       <g class="muscle-label">
         <rect x="50" y="-45" width="200" height="30" fill="white" stroke="black" rx="5" ry="5" />
-        <text x="145" y="-30" font-family="Arial" font-size="16" fill="black" text-anchor="middle" alignment-baseline="middle">
+        <text x="145" y="-30" font-family="Arial" font-size="1.5vw" fill="black" text-anchor="middle" alignment-baseline="middle">
           {muscle.id}
         </text>
       </g>
@@ -568,7 +569,7 @@ function toggleFiltersSection() {
       {#each sortedMatchCounts as count}
         {#if filteredWorkouts.filter(workout => workout.matchCount === count).length > 0}
           <div class = "workoutGroupContainer"> 
-        <h2 style="text-align: center;">Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
+        <h2 style="text-align: center; font-size:1.5vw;">Works {count} out of {sortedMatchCounts.length} selected muscles</h2>
             <div class = "workoutGroupInnerContainer">
             {#each filteredWorkouts.filter(workout => workout.matchCount === count) as workout (workout.id)}
               <WorkoutCard
@@ -606,7 +607,7 @@ function toggleFiltersSection() {
 aside {
   flex: 1;                      
   overflow-y: auto;        
-  max-width: 300px; 
+  width: 15vw; 
 }
 
 .bodyContainer {                    
@@ -614,7 +615,7 @@ aside {
   justify-content: center;       
   align-items: center;           
   overflow-y: auto;             
-  width: 800px; 
+  width: 30vw;
   flex-shrink: 0;
 }
 main {
@@ -638,13 +639,10 @@ nav {
   height: auto; 
   display: block;
 }
-.workoutContainer {
-  flex: 2.5;        
-  width: 100%;  
-  height: 70%;     
-  margin: 2%;
-  max-width: 50%;
-  padding: 1rem;
+.workoutContainer {       
+  width: 50vw;  
+  height: 70%; 
+  margin-top:10vh;  
 }
 .workoutGroupsWrapper {
   overflow-y: auto;  
@@ -673,9 +671,10 @@ nav {
 .no-selection-message {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 75%;
   transform: translate(-50%, -50%);
-  width: 100%;
+  width: 30vw;
+  height: 30vh;
   max-width: 25rem; 
   padding: 1.25rem; 
   background-color: #f8f8f8;
@@ -683,7 +682,7 @@ nav {
   border-radius: 0.625rem; 
   box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1); 
   text-align: center;
-  font-size: 2rem;
+  font-size: 2vw;
   color: #555;
   font-weight: bold;
   font-family: 'Arial', sans-serif;
@@ -704,32 +703,60 @@ nav {
 
 
 header {
+  position: relative;
     background-color: #333;
     color: white;
-    padding: 0.625rem 0; 
-    margin: 0.625rem; 
+    height: 10vh;
+    width:100vw;
 }
 
 .headerTitle{
   font-weight: bold; 
   text-align: center;
+  font-size: 2.57vw;
+}
+
+.button-home {
+  position: absolute; /* Positioned relative to the header */
+  top: 50%; /* Center vertically within the header */
+  left: 2vw; /* Adjust this to control horizontal position */
+  transform: translateY(-50%); /* Adjusts for vertical centering */
+  background-color: #b0b0b0;
+  color: #EEEEEE;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8vw 1.6vw;
+  font-size: 1.2vw;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+.button-home:hover {
+  background-color: #A0A0A0;
+}
+
+.button-home:active {
+  background-color: #909090;
 }
 
 .info-button {
-  display: inline-block;
-  margin-left: 0.3125rem; 
-  position: relative;
-  font-size: 0.875rem;
-  color: #EEEEEE;  
-  cursor: pointer;
-  border-radius: 50%;
-  width: 1.125rem; 
-  height: 1.125rem; 
-  text-align: center;
-  line-height: 1.125rem; 
-  background-color: #636363;  
-  border: 0.0625rem solid #31363F;  
-  transition: 0.3s ease;
+display: inline-block;
+margin-left: 0.35vw; 
+position: relative;
+font-size: 0.97vw;
+color: #EEEEEE;  
+cursor: pointer;
+border-radius: 50%;
+width: 1.25vw; 
+height: 1.25vw; 
+text-align: center;
+line-height: 1.25vw; 
+background-color: #636363;  
+border: 0.07vw solid #31363F;  
+transition: 0.3s ease;
+
 }
 
 .info-button:hover {
@@ -790,13 +817,14 @@ header {
 
 .toggle-label {
   display: inline-block;
-  width: 3.75rem; 
-  height: 1.875rem; 
+  width: 4.17vw;
+  height: 3.33vh;
   background-color: #ccc;
   border-radius: 1.875rem;
   position: relative;
   cursor: pointer;
   transition: background-color 0.3s;
+  font: 2vw;
 }
 .toggle-label:hover {
   background-color: #ddd;
@@ -805,8 +833,8 @@ header {
 
 .toggle-label::after {
   content: '';
-  width: 1.625rem; 
-  height: 1.625rem; 
+  height: 2.67vh; /* Adjusted for viewport height */
+  width: 1.67vw;
   background-color: white;
   border-radius: 50%;
   position: absolute;
@@ -820,30 +848,40 @@ header {
 }
 
 .toggle-switch:checked + .toggle-label::after {
-  transform: translateX(1.875rem); 
+  transform: translateX(2.08vw);
 }
 
 .filter-label{
   flex-grow: 1;
   margin-right: 20px;
-  font-size: x-large;
+  font-size: 1.5vw;
 }
 
 .toggle-title{
-  font-size: 2.0rem;  
-    font-weight: bold;
+  font-size: 1.5vw;  
+  font-weight: bold;
 }
 
-.filterButton{
+.filterButton {
   color: #EEEEEE;  
   cursor: pointer;
-  text-align: center;
   background-color: #636363;  
   border-radius: 50%;
-  border: 0.0625rem solid #31363F;  
-  width: 1.45rem; 
-  height: 1.45rem; 
+  border: 0.07vw solid #31363F;  
+  width: 1.25vw; 
+  height: 1.25vw; 
+  font-size: 0.97vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.35vw; 
+}
 
+
+.filter-container{
+  display:flex;
+  flex-direction: row;
+  font-size: 2vw;
 }
 
 
@@ -856,5 +894,10 @@ header {
     border-radius: 50%;
     visibility: visible;
   }
+  .mucleText{
+    font-size:2vw;
+  }
+
+ 
 
 </style>
