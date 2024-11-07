@@ -32,7 +32,7 @@ try{ const response = await axios.post(
     {
       model: 'gpt-3.5-turbo',
       messages: [messages],
-      max_tokens: 150
+      max_tokens: 250
     },
     {
       headers: {

@@ -2,36 +2,90 @@
   import WorkoutQueueIcon from '../../components/workoutQueueIcon.svelte';
   import WorkoutCard from '../../components/workoutCard.svelte';
   import workoutQueueStore from '../../stores/workoutQueueStore';
-  import {musclesStore} from '../../stores/muscles.js';
+  import { musclesStore } from '../../stores/muscles.js';
   import SearchBar from '../../components/SearchBar.svelte';
-  import Header from '../../components/Header.svelte'
+  import Header from '../../components/Header.svelte';
   import Chatbot from '../../components/Chatbot.svelte';
 
+  // Tracks length of workout queue
+  let workoutQueueLength = 0;
 
-// Tracks length of workout queue
-let workoutQueueLength = 0;
+  // Updates workoutQueueLength whenever the workoutQueueStore changes
+  $: workoutQueueLength = $workoutQueueStore.length;
 
-// updates workoutQueueLength whenever the workoutQueueStore changes
-$: workoutQueueLength = $workoutQueueStore.length;
-
-
- /**
-  * Checks if muscle is used is any of the workouts in the workout queue
+  /**
+   * Checks if muscle is used in any of the workouts in the workout queue
    * @param {{ id: any; }} muscle
    */
- function isMuscleUsed(muscle) {
-    return $workoutQueueStore.some(workout =>
-      workout.musclesUsed.some((/** @type {{ name: any; name_en: any; }} */ usedMuscle) => 
-        usedMuscle.name === muscle.id || usedMuscle.name_en === muscle.id
-      )
-    );
+  function isMuscleUsed(muscle) {
+      return $workoutQueueStore.some(workout =>
+          workout.musclesUsed.some((/** @type {{ name: any; name_en: any; }} */ usedMuscle) =>
+              usedMuscle.name === muscle.id || usedMuscle.name_en === muscle.id
+          )
+      );
   }
+ // Function to remove HTML tags
+ /**
+   * @param {string} html
+   */
+   function stripHtmlTags(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return (doc.body?.textContent || '').replace(/\u00A0/g, ' ').trim();
+}
 
+    
+// Function to save content as a .txt file
+function saveTextFile() {
+        const workouts = $workoutQueueStore;
+        // Check if there are workouts in the queue
+        if (workouts.length === 0) {
+            alert("No workouts in the queue to download.");
+            return;
+        }
+        // Define the content for the .txt file
+        let fileContent = "Workout Queue Summary:\n\n";
+
+         // Iterate over each workout and add its details
+    workouts.forEach((workout, index) => {
+        fileContent += `WORKOUT ${index + 1}:\n`;
+        fileContent += `NAME: ${workout.name}\n`;
+        
+        let description = stripHtmlTags(workout.workoutDescription);
+        fileContent += `DESCRIPTION: ${description}\n`;
+        
+        // Get muscles used (assuming `musclesUsed` is an array of muscle objects with `name` property)
+        const muscles = workout.musclesUsed.map((/** @type {{ name: any; }} */ muscle) => muscle.name).join(", ");
+        fileContent += `MUSCLES USED: ${muscles || 'None'}\n\n`;
+    });
+        
+        // Create a Blob with the content
+        const blob = new Blob([fileContent], { type: "text/plain" });
+        
+        // Create a URL for the Blob
+        const url = URL.createObjectURL(blob);
+        
+        // Create a temporary link to trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "workout-summary.txt";
+        
+        // Append the link, click it, and remove it
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Clean up the Blob URL
+        URL.revokeObjectURL(url);
+    }
 </script>
+
 
 
 <Header></Header>
 <h1 style="font-weight: bold; text-align: center; font-size: 1.75vw; margin-top:5vh;"> Workout Queue</h1>
+<div style="text-align: center;">
+  <button on:click={saveTextFile}>Download Workout Queue</button>
+</div>
 <div class ="container">
 <div class="bodyText"> 
   <h3 style = "text-align:center">  Muscles Worked </h3>
@@ -145,11 +199,6 @@ flex-direction: row;
   justify-content: center;
 }
 
-
-h2 {
-  text-align: center;
-}
-
 .bodySvgs{
   display: flex;
   justify-content: center;       
@@ -159,5 +208,17 @@ h2 {
   flex-shrink: 0;
 }
 
+button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background-color: #76ABAE;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
+    button:hover {
+        background-color: #5a8a8b;
+    }
 </style>
