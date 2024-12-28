@@ -121,7 +121,6 @@ function saveTextFile() {
 
 <WorkoutQueueIcon></WorkoutQueueIcon>
 <SearchBar></SearchBar>
-<Chatbot></Chatbot>
 <div class="workoutContainer">
   <div class ="workouts"> 
   {#if $workoutQueueStore.length > 0}

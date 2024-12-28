@@ -730,7 +730,7 @@ nav {
 
 .toggle-label::after {
   content: '';
-  height: 2.67vh; /* Adjusted for viewport height */
+  height: 2.67vh; 
   width: 1.67vw;
   background-color: white;
   border-radius: 50%;
