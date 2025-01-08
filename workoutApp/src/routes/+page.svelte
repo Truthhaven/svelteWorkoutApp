@@ -473,7 +473,6 @@ function toggleFiltersSection() {
 <nav>
   <SearchBar/>
   <WorkoutQueueIcon />
-  <Chatbot></Chatbot>
 </nav>
 
 <main>
