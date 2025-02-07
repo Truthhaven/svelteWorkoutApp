@@ -21,7 +21,6 @@
 </script>
 
 <Header></Header>
-
 <WorkoutQueueIcon></WorkoutQueueIcon>
 <SearchBar></SearchBar>
 <Chatbot></Chatbot>
@@ -69,9 +68,9 @@
   #workoutName {
   font-weight: bold;
   font-size: 2vw;
-  max-width: 90%; /* Set a max width for responsiveness */
-  white-space: normal; /* Allows text to wrap to the next line */
-  word-wrap: break-word; /* Breaks long words to fit within container */
-  overflow: visible; /* Ensures full visibility */
+  max-width: 90%; 
+  white-space: normal; 
+  word-wrap: break-word; 
+  overflow: visible; 
 }
 </style>

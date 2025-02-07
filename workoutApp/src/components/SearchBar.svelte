@@ -168,7 +168,7 @@ background-color: #f5f5f5;
 .item-info {
 display: flex;
 align-items: center;
-justify-content: space-between; /* Pushes title and button apart */
+justify-content: space-between; 
 width: 100%;
 }
 
@@ -176,7 +176,7 @@ width: 100%;
 font-size: 1.4vw;
 font-weight: bold;
 color: #333;
-margin-right: auto; /* Ensures title stays on the left */
+margin-right: auto; 
 }
 
 .item-image {
@@ -187,7 +187,7 @@ border-radius: 0.56vw;
 margin-right: 0.7vw;
 }
 .view-workout-btn {
-    background-color: #ccc; /* Set to grey to match dropdown items */
+    background-color: #ccc; 
     color: #333;
     border: none;
     border-radius: 0.3rem;
@@ -195,8 +195,8 @@ margin-right: 0.7vw;
     font-size: 0.8rem;
     cursor: pointer;
     margin-right: 0.5rem;
-    width: 6rem; /* Fixed width */
-    height: 2rem; /* Fixed height */
+    width: 6rem; 
+    height: 2rem; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -205,7 +205,7 @@ margin-right: 0.7vw;
 }
 
 .view-workout-btn:hover {
-    background-color: #b3b3b3; /* Darker grey for hover effect */
+    background-color: #b3b3b3; 
 }
 
 </style>
